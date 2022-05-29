@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro Empresa</title>
+</head>
+
+<body>
+
+    <style>
+        form {
+            margin: 0 auto;
+            width: 400px;
+            padding: 1em;
+            border: 1px solid #CCC;
+            border-radius: 1em;
+        }
+
+        form div+div {
+            margin-top: 1em;
+        }
+
+        label {
+            display: inline-block;
+            width: 90px;
+            text-align: right;
+        }
+
+        input {
+            font: 1em sans-serif;
+            width: 300px;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            border: 1px solid #999;
+        }
+
+        input:focus {
+            border-color: #000;
+        }
+
+        button {
+            padding-left: 9px;
+        }
+
+        button {
+            margin-left: 14em;
+        }
+
+        div {
+
+            color: #000000;
+        }
+
+        h2 {
+            color: #000000;
+            margin-left: 4em;
+        }
+    </style>
+
+    <form method="post">
+        <h2> Cadastro da Empresa</h2>
+        <div>
+            <label for="nde">Nome da Empresa:</label>
+            <input type="text" id="nome_da_empresa" onchange="validaNulo(document.getElementById('nome_da_empresa'))" />
+        </div>
+        <div>
+            <label for="name">Nome do Proprietário:</label>
+            <input type="text" id="name" required onchange="validaLetras(document.getElementById('name'))" />
+        </div>
+        <div>
+            <label for="mail">E-mail:</label>
+            <input type="email" id="mail" onchange="validaEmail(document.getElementById('mail'))"/>
+        </div>
+        <div>
+            <label for="senha">Senha:</label>
+            <input type="password" id="senha" onchange="validaNulo(document.getElementById('password'))"/>
+        </div>
+
+        <div>
+            <label for="cnpj">CNPJ:</label>
+            <input type="text" id="cnpj" onchange="validaCNPJ(document.getElementById('cnpj'))"/>
+        </div>
+        <div>
+            <label for="tel">Telefone:</label>
+            <input type="text" id="telefone" onchange="validaNulo(document.getElementById('telefone'))"/>
+        </div>
+        <div class="button">
+            <button id="btn" type="button" onclick="enviar()">CADASTRAR</button>
+        </div>
+        <div class="button">
+            <button id="btnConsultar" type="button" onclick="consultar()">CONSULTAR</button>
+        </div>
+        <div>
+            <textarea rows="4" cols="50" id="id1"></textarea>
+        </div>
+        <div>
+            <label for="tel">CNPJ para atualizar:</label>
+            <input type="text" id="cnpjU"/>
+        </div>
+        <div class="button">
+            <button id="btnAtualizar" type="button" onclick="update()">SELECIONE PARA ATUALIZAR</button>
+        </div>
+        <div>
+            <label for="tel">CNPJ para Deletar:</label>
+            <input type="text" id="cnpjD"/>
+        </div>
+        <div class="button">
+            <button id="btnDelete" type="button" onclick="deletar()">DELETAR</button>
+        </div>
+    </form>
+
+    <script type="module" src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/8.9.1/firebase-database.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/8.9.1/firebase-auth.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
+    <script type="module" src="./src/firebaseConfig.js"></script>
+    <script type="text/javascript" src="./src/verificadores.js"></script>
+    <script type="text/javascript" src="./src/cadastrar.js"></script>
+
+
+    <script type="text/javascript">
+        $("#cnpj").mask("00.000.000/0000-00");
+        $("#telefone").mask("(00) 0000-0000");  
+        $("#cnpjU").mask("00.000.000/0000-00");        
+        $("#cnpjD").mask("00.000.000/0000-00");
+    </script>
+
+    <script type="text/javascript">
+        var whereIs = 0;
+
+        function enviar(){
+            var nomeEmpresa = document.getElementById('nome_da_empresa');
+            var nomePropietario = document.getElementById('name');
+            var email = document.getElementById('mail');            
+            var password = document.getElementById('senha');
+            var cnpj = document.getElementById('cnpj');
+            var telefone = document.getElementById('telefone');            
+
+            if(validaNulo(nomeEmpresa) &&
+                validaLetras(nomePropietario) &&
+                validaEmail(email) &&
+                validaNulo(password) &&
+                validaCNPJ(cnpj) &&
+                validaNulo(telefone)            
+                ){
+                    cadastrarEmpresa()
+                    window.location.href = "main.html"
+            }
+            else{
+                alert('Houve um erro na digitação dos dados, por favor, verifique novamente!')
+            }
+
+            if(whereIs === 1){                
+                document.getElementById('btn').textContent = "CADASTRAR";                
+                document.getElementById('btnAtualizar').textContent = "SELECIONE PARA ATUALIZAR";
+                limparCampos();
+                document.getElementById('cnpj').disabled = false
+                whereIs = 0;
+            }
+        }        
+    
+        function consultar(){
+            document.getElementById('id1').value = ""
+
+            var dadosClientes = firebase.database().ref('Cadastros/Empresas');
+            dadosClientes.on('value', (snapshot) => {
+                snapshot.forEach(function(item) {
+                    var data = item.val();
+                    var stringDados = 
+                        data.CNPJ + " - " +
+                        data.Nome_da_Empresa + " - " +
+                        data.Nome_do_Propietário + " - " +
+                        data.Email + " - " +
+                        data.Senha + " - " + 
+                        data.Telefone + " - " 
+
+                    document.getElementById('id1').value += stringDados +'\r\n'                        
+                })
+            });           
+        }
+        
+        function update(){
+            if(whereIs === 0){
+                var cnpjU= document.getElementById('cnpjU').value;
+                cnpjU = cnpjU.replace(/[^\d]+/g,'');
+                var dadosClientes = firebase.database().ref('Cadastros/Empresas/' + cnpjU + '/');
+
+                dadosClientes.on('value', (snapshot) => {
+                        var data = snapshot.val();
+                        var c = document.getElementById('cnpj');
+
+                        document.getElementById('name').value = data.Nome_do_Propietário;
+                        document.getElementById('mail').value = data.Email;
+                        document.getElementById('nome_da_empresa').value = data.Nome_da_Empresa;
+                        document.getElementById('senha').value = data.Senha;
+                        document.getElementById('telefone').value = data.Telefone;
+                        document.getElementById('cnpj').value = data.CNPJ;
+                        
+                        c.value = data.CNPJ;
+                        c.disabled = true;
+                        
+                        document.getElementById('btn').textContent = "ATUALIZAR";
+                        document.getElementById('btnAtualizar').textContent = "CANCELAR";
+                });  
+                
+                whereIs = 1;
+            }
+            else{
+                document.getElementById('btn').textContent = "CADASTRAR";                
+                document.getElementById('btnAtualizar').textContent = "SELECIONE PARA ATUALIZAR";
+                limparCampos();
+                document.getElementById('cnpj').disabled = false
+                whereIs = 0;
+            }
+        }
+
+        function deletar(){            
+            var cnpjD = document.getElementById('cnpjD').value;
+            cnpjD = cnpjD.replace(/[^\d]+/g,'');
+
+            firebase.database().ref().child('/Cadastros/Empresas/' + cnpjD).remove();
+        }
+
+        function limparCampos(){
+            document.getElementById('name').value = "";
+            document.getElementById('mail').value = "";
+            document.getElementById('nome_da_empresa').value = "";
+            document.getElementById('senha').value = "";
+            document.getElementById('telefone').value = "";
+            document.getElementById('cnpj').value = "";
+        }
+
+    </script>
+
+</body>
+
+</html>

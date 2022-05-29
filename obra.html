@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro Obra</title>
+</head>
+<body>
+
+    <style>
+        form {
+            margin: 0 auto;
+            width: 400px;
+            padding: 1em;
+            border: 1px solid #CCC;
+            border-radius: 1em;
+        }
+        form div + div {
+            margin-top: 1em;
+        }
+        label {
+            display: inline-block;
+            width: 90px;
+            text-align: right;
+        }
+        input {
+            font: 1em sans-serif;
+            width: 300px;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            border: 1px solid #999;
+        }
+        input:focus {
+                border-color: #000;
+        }
+        button {
+            padding-left: 9px;
+        }
+        button {
+            margin-left: 14em;
+        }
+        div{
+   
+            color:#000000;
+        }
+        h2{
+            color: #000000;
+            margin-left: 4em;
+        }
+        datepicker{
+            font: 1em sans-serif;
+            width: 300px;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            border: 1px solid #999;
+            padding-right: 10px;
+            
+        }
+    </style>
+   
+    <form method="post">
+            <h2> Cadastro da obra</h2>
+        <div>
+            <label for="local">Endereço:</label>
+            <input type="text" id="cidade" />
+        </div>
+        <div>
+            <label for="cdd">Cidade:</label>
+            <input type="text" id="cidade" onchange="validaLetras(document.getElementById('cidade'))" />
+        </div>
+        <div>
+            <label for="est">Estado:</label>
+            <input type="text" id="estado" onchange="validaLetras(document.getElementById('estado'))" />
+        </div>
+        <div class="datepicker">
+            <input type="text" name="daterange" value="" />
+        </div>
+        <div class="button">
+            <button id="btn" type="button" onclick="enviar()">CRIAR OBRA</button>
+        </div>
+    </form>
+
+    <script type="module" src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/8.9.1/firebase-database.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/8.9.1/firebase-auth.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
+    <script type="module" src="./src/firebaseConfig.js"></script>
+    <script type="text/javascript" src="./src/verificadores.js"></script>
+    <script type="text/javascript" src="./src/cadastrar.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+    <script type="text/javascript">
+
+    </script>
+
+    <script>
+        $(function() {
+            $('input[name="daterange"]').daterangepicker({
+                opens: 'right'
+            }, function(start, end, label) {
+                console.log("A new date selection was made: " + start.format('YYYY-DD-MM') + ' to ' + end.format('YYYY-DD-MM'));
+            });
+        });
+    </script>
+       
+</body>
+</html>

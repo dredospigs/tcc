@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tela inicial</title>
+</head>
+<body>
+
+    <style>
+        button{
+            position: absolute;
+            right:    20px;
+            bottom:   10px;
+            display:block;
+            height: 200px;
+            width: 200px;
+            border-radius: 50%;
+            border: 1px solid blueviolet;
+        }
+    </style>
+    
+    <form method="post">
+        <div class="button">
+            <button id="btnObra" type="button" onclick="newObra()" >NOVA OBRA</button>
+            </div> 
+
+    </form>
+
+    <script type="text/javascript">
+        function newObra(){
+            window.location.href = "obra.html"
+        }
+
+    </script>
+
+</body>
+</html>
