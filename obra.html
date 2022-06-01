@@ -11,7 +11,7 @@
     <style>
         form {
             margin: 0 auto;
-            width: 400px;
+            width: 800px;
             padding: 1em;
             border: 1px solid #CCC;
             border-radius: 1em;
@@ -57,9 +57,16 @@
             padding-right: 10px;
             
         }
+        .button-dyn{
+            width: 300px;
+            height: 100px;
+            position: fixed;
+            bottom: 0%;
+            margin-left: 33%;
+        }
     </style>
    
-    <form method="post">
+    <form method="post" id="formulario">
             <h2> Cadastro da obra</h2>
         <div>
             <label for="local">Endereço:</label>
@@ -76,7 +83,11 @@
         <div class="datepicker">
             <input type="text" name="daterange" value="" />
         </div>
-        <div class="button">
+        <div>
+            Adicionar etapa<br>
+            <input type="button" value="+" onClick="addInput();">
+        </div>
+        <div class="button-dyn">
             <button id="btn" type="button" onclick="enviar()">CRIAR OBRA</button>
         </div>
     </form>
@@ -94,19 +105,65 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
-    <script type="text/javascript">
-
-    </script>
-
     <script>
         $(function() {
+            
             $('input[name="daterange"]').daterangepicker({
-                opens: 'right'
+                opens: 'right',
+                "locale": {
+                    "format": "DD/MM/YYYY",
+                    "separator": " - ",
+                    "applyLabel": "Confirmar",
+                    "cancelLabel": "Cancelar",
+                    "fromLabel": "De",
+                    "toLabel": "Até",
+                    "customRangeLabel": "Custom",
+                    "weekLabel": "W",
+                    "daysOfWeek": [
+                        "Dom",
+                        "Seg",
+                        "Ter",
+                        "Qua",
+                        "Qui",
+                        "Sex",
+                        "Sab"
+                    ],
+                    "monthNames": [
+                        "Janeiro",
+                        "Fevereiro",
+                        "Março",
+                        "Abril",
+                        "Maio",
+                        "Junho",
+                        "Julho",
+                        "Agosto",
+                        "Setembro",
+                        "Outubro",
+                        "Novembro",
+                        "Dezembro"
+                    ],
+                    "firstDay": 1
+                }
+                
             }, function(start, end, label) {
                 console.log("A new date selection was made: " + start.format('YYYY-DD-MM') + ' to ' + end.format('YYYY-DD-MM'));
             });
         });
     </script>
-       
+        
+    <script>
+
+        function addInput(){
+            var newdiv = document.createElement('div'); 
+            newdiv.innerHTML = "Entry <br><input type='text' name='myInputs[]'> <input type='button' value='-' " +
+                                "onClick='removeInput(this);'>";
+            document.getElementById('formulario').appendChild(newdiv);
+        }
+    
+        function removeInput(btn){
+            btn.parentNode.remove();
+        }
+    
+        </script>
 </body>
 </html>
