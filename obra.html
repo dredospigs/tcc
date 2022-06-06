@@ -90,18 +90,15 @@
             padding-right: 10px;
             
         }
-        .button-dyn{
-            width: 300px;
-            height: 100px;
-            position: fixed;
-            bottom: 0%;
-            margin-left: 33%;
-        }
     </style>
    
     <form method="post" id="formulario">
         <div class="login-box">
             <h2> Cadastro da obra</h2>
+            <div class="user-box">
+                <input type="text" id="name" required=""/>
+                <label for="name">Título da obra:</label>
+            </div>
             <div class="user-box">
                 <input type="text" id="cidade" required=""/>
                 <label for="local">Endereço:</label>
@@ -115,16 +112,16 @@
                 <label for="est">Estado:</label>
             </div>
             <div class="datepicker">
-                <h4>Data prevista de finalização:</h4>
+                <h4>Data prevista:</h4>
                 <input type="text" name="daterange" value="" />
             </div>
             <div>                
                 <h5>Adicionar etapa</h5><input type="button" value="+" onClick="addInput();">
             </div>
-            <div id="etapas">
+            <div  id="etapas">
 
             </div>
-            <div class="button-dyn">
+            <div class="button">
                 <button id="btn" type="button" onclick="enviar()">CRIAR OBRA</button>
             </div>
         </div>
@@ -190,19 +187,22 @@
         });
     </script>
         
-    <script>
+        <script>
 
-        function addInput(){
-            var newdiv = document.createElement('div'); 
-            newdiv.innerHTML = "<h3>Etapa</h3> <br><input type='text' name='myInputs[]'> <input type='button' value='-' " +
-                                "onClick='removeInput(this);'>";
-            document.getElementById('etapas').appendChild(newdiv);
-        }
-    
-        function removeInput(btn){
-            btn.parentNode.remove();
-        }
-    
-        </script>
+            function addInput(){
+                var newdiv = document.createElement('div'); 
+                newdiv.innerHTML = "<div><h3>Nova Etapa</h3><input type='button' value='-' onClick='removeInput(this);'><br>" + 
+                                    "<div class='user-box'><input type='text' name='myInputs[]' required=''><label for='nome'>Título da etapa:</label> </div>"+
+                                    "<div class='user-box'><input type='text' name='myInputs[]' required=''><label for='equipe'>Equipe Responsável:</label> </div>" + 
+                                    "<div class='user-box'><input type='text' name='myInputs[]' required=''><label for='valor'>Valor da obra:</label> </div>" + 
+                                   "</div></div>";
+                document.getElementById('etapas').appendChild(newdiv);
+            }
+        
+            function removeInput(btn){
+                btn.parentNode.remove();
+            }
+        
+    </script>
 </body>
 </html>
