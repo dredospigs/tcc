@@ -4,21 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tela inicial</title>
-</head>
-<body>
+    <title>Document</title>
 
     <style>
-        html{
-            height: 100%;
-        }
-        body{
-            margin: 0;
-            padding: 0;
-            font-family: sans-serif;
-            background-color: #1a144a;
-            background-image: linear-gradient(180deg, #1a144a 4%, #190e0c 100%);
-        }
         .accordion {
         background-color: #eee;
         color: #444;
@@ -42,27 +30,23 @@
         transition: max-height 0.2s ease-out;
         }
     </style>
-    
-    <form>
-        
-        <button class="accordion">Obra 1</button>
-        <div class="panel">
+</head>
+<body>
+    <div class="login-box">
+        <form>  
+            <button class="accordion">Obra 1</button>
+            <div class="panel">
             <p>Etapa 1...</p>
-        </div>
+            </div>
 
-        <button class="accordion">Obra 2</button>
-        <div class="panel">
+            <button class="accordion">Obra 2</button>
+            <div class="panel">
             <p>Etapa 1...</p>
-        </div>
-        <div class="button">
-            <button id="btnObra" type="button" onclick="newObra()" >NOVA OBRA</button>
-        </div> 
-    </form>
+            </div>
+        </form>
+    </div>
 
-    <script type="text/javascript">
-        function newObra(){
-            window.location.href = "obra.html"
-        }
+    <script>
         var acc = document.getElementsByClassName("accordion");
         var i;
 
@@ -78,6 +62,5 @@
             });
         }
     </script>
-
 </body>
 </html>

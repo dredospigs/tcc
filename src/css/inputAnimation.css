@@ -1,0 +1,48 @@
+.login-box{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 2em;
+    padding: 3em;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 1);
+    box-sizing: border-box;
+    box-shadow:  0 15px 25px rgba(0, 0, 0, 1);
+    border-radius: 10px;
+}
+.login-box h2{
+    color:aliceblue;
+}
+.login-box h3{
+    color:aliceblue;
+}
+.login-box .user-box input{
+    padding: 1em 0;
+    font-size: 100%;
+    color: #fff;
+    margin-bottom: 1em;
+    border: none;
+    border-bottom: 1px solid #fff;
+    outline: none;
+    background: transparent;
+}
+.login-box .user-box{
+    position: relative;
+}
+.login-box .user-box label{
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0.8em 0;
+    font-size: medium;
+    color: #fff;
+    pointer-events: none;
+    transition: .5s;
+}
+.login-box .user-box input:focus ~label,
+.login-box .user-box input:valid ~label{
+    top: -1.2em;
+    left: 0;
+    color: #ff0043;
+    font-size: smaller;
+}
