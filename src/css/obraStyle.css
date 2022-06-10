@@ -1,0 +1,107 @@
+.login-box{
+    position:absolute;
+    top: 0%;
+    left: 50%;
+    min-width: 2em;
+    padding: 3em;
+    transform: translate(-50%, -0%);
+    background: rgba(0, 0, 0, 1);
+    box-sizing: border-box;
+    box-shadow:  0 15px 25px rgba(0, 0, 0, 1);
+    border-radius: 10px;
+}
+.login-box h2{
+    color:aliceblue;
+}
+.login-box h3{
+    color:aliceblue;
+}
+.login-box h4{
+    color:aliceblue;
+}
+.login-box h5{
+    color:aliceblue;
+}
+.login-box .user-box input{
+    min-width:  100%;
+    padding: 1em 0;
+    font-size: 100%;
+    color: #fff;
+    margin-bottom: 1em;
+    border: none;
+    border-bottom: 1px solid #fff;
+    outline: none;
+    background: transparent;
+}
+.login-box .user-box{
+    position: relative;
+}
+.login-box .user-box label{
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0.8em 0;
+    font-size: medium;
+    color: #fff;
+    pointer-events: none;
+    transition: .5s;
+}
+.login-box .user-box input:focus ~label,
+.login-box .user-box input:valid ~label{
+    top: -1.2em;
+    left: 0;
+    color: #ff0043;
+    font-size: smaller;
+}
+.login-box .box{
+    margin-top: 10%;
+    margin-left: -15%;
+    margin-right: -15%;
+    height: auto;
+    border: 1px solid;
+    border-color: bisque;
+    border-radius: 10px;
+    padding: 1em;
+    -webkit-border-radius: 10px;
+}
+.login-box .box{
+    margin-top: 10%;
+    margin-left: -15%;
+    margin-right: -15%;
+    height: auto;
+    border: 1px solid;
+    border-color: bisque;
+    border-radius: 10px;
+    padding: 1em;
+    -webkit-border-radius: 10px;
+}
+.textAdd{
+    margin-left: -60%;
+    margin-top: 10%;
+    color: aliceblue;
+}
+.buttonAdd{
+    position: absolute;
+    right: 10%;
+    margin-top: -7%;
+    border-radius: 100%;
+    border: 2px solid;
+    border-color: #041c05;
+    background-color: #b2f7ba;
+    font-size: medium;
+    color: #000;
+}
+.buttonRemove{
+    position: absolute;
+    right: 10%;
+    margin-top: -15%;
+    border-radius: 100%;
+    background-color: #f53d33;
+    border: 2px solid;
+    border-color: #590505;
+    font-size:x-large;
+    color: rgb(255, 255, 255);
+    padding-top: -1%;
+    padding-left: 3%;
+    padding-right: 3%;
+}

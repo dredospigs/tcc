@@ -9,58 +9,10 @@
 <body>
     <link rel="stylesheet" href="./src/css/app.css">
     <link rel="stylesheet" href="./src/css/buttonSalesforce.css">
+    <link rel="stylesheet" href="./src/css/obraStyle.css">
     <style>
-        .login-box{
-            position:absolute;
-            top: 0%;
-            left: 50%;
-            min-width: 2em;
-            padding: 3em;
-            transform: translate(-50%, -0%);
-            background: rgba(0, 0, 0, 1);
-            box-sizing: border-box;
-            box-shadow:  0 15px 25px rgba(0, 0, 0, 1);
-            border-radius: 10px;
-        }
-        .login-box h2{
-            color:aliceblue;
-        }
-        .login-box h3{
-            color:aliceblue;
-        }
-        .login-box h4{
-            color:aliceblue;
-        }
-        .login-box .user-box input{
-            min-width:  100%;
-            padding: 1em 0;
-            font-size: 100%;
-            color: #fff;
-            margin-bottom: 1em;
-            border: none;
-            border-bottom: 1px solid #fff;
-            outline: none;
-            background: transparent;
-        }
-        .login-box .user-box{
-            position: relative;
-        }
-        .login-box .user-box label{
-            position: absolute;
-            top: 0;
-            left: 0;
-            padding: 0.8em 0;
-            font-size: medium;
-            color: #fff;
-            pointer-events: none;
-            transition: .5s;
-        }
-        .login-box .user-box input:focus ~label,
-        .login-box .user-box input:valid ~label{
-            top: -1.2em;
-            left: 0;
-            color: #ff0043;
-            font-size: smaller;
+        body {
+            background-image: linear-gradient(90deg, #110e6b 0%, #11011a 100%);
         }
     </style>
 
@@ -85,15 +37,16 @@
             </div>   
             <div class="user-box">
                 <h4>Data prevista:</h4>
-                <input type="text" name="daterange" value="" />
+                <input type="text" id="mainDate" name="daterangeMain" value="" />
             </div>
             <div>                
-                <h5>Adicionar etapa</h5><input type="button" value="+" onClick="addInput();">
+                <div class="textAdd">Adicionar etapa</div>
+                <input class="buttonAdd" type="button" value="+" onClick="addInput();">
             </div>
 
             <div  id="etapas"></div>     
             <div class="button">
-                <button id="btnFuncionario" type="button">CRIAR</button>
+                <button id="btnObra" type="button">CRIAR</button>
             </div>     
         </div>    
     </form>
@@ -112,10 +65,11 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
     <script>
-        $(function() {
-            
-            $('input[name="daterange"]').daterangepicker({
-                opens: 'right',
+        var data;
+
+        $(function() {            
+            $('input[name="daterangeMain"]').daterangepicker({
+                opens: 'center',
                 "locale": {
                     "format": "DD/MM/YYYY",
                     "separator": " - ",
@@ -152,28 +106,135 @@
                 }
                 
             }, function(start, end, label) {
-                console.log("A new date selection was made: " + start.format('YYYY-DD-MM') + ' to ' + end.format('YYYY-DD-MM'));
+                data = start.format('DD/MM/YYYY') + " - " + end.format('DD/MM/YYYY')   
+                var datas = data.split(' ')
+
+                const minDate = datas[0]
+                const maxDate = datas[2]
+                $(function() {            
+                    $('input[name="daterange"]').daterangepicker({
+                        opens: 'center',
+                        "minDate": minDate,
+                        "maxDate": maxDate,
+                        "locale": {
+                            "format": "DD/MM/YYYY",
+                            "separator": " - ",
+                            "applyLabel": "Confirmar",
+                            "cancelLabel": "Cancelar",
+                            "fromLabel": "De",
+                            "toLabel": "Até",
+                            "customRangeLabel": "Custom",
+                            "weekLabel": "W",
+                            "daysOfWeek": [
+                                "Dom",
+                                "Seg",
+                                "Ter",
+                                "Qua",
+                                "Qui",
+                                "Sex",
+                                "Sab"
+                            ],
+                            "monthNames": [
+                                "Janeiro",
+                                "Fevereiro",
+                                "Março",
+                                "Abril",
+                                "Maio",
+                                "Junho",
+                                "Julho",
+                                "Agosto",
+                                "Setembro",
+                                "Outubro",
+                                "Novembro",
+                                "Dezembro"
+                            ],
+                            "firstDay": 1
+                        }
+                        
+                    });
+                });             
             });
         });
     </script>
         
     <script>
+        var nmrEtapa = 1;
+        var id = 0;
 
-        function addInput(){
+        function addInput(){  
+            data = document.getElementById('mainDate').value      
+            var datas = data.split(' ')
+
+            const minDate = datas[0]
+            const maxDate = datas[2]
             
             var newdiv = document.createElement('div'); 
-            newdiv.innerHTML = "<div><h3>Nova Etapa</h3><input type='button' value='-' onClick='removeInput(this);'><br>" + 
-                                "<div class='user-box'><input type='text' name='myInputs[]' required=''><label for='nome'>Título da etapa:</label> </div>"+
+            newdiv.classList.add('box')
+            newdiv.innerHTML = `<h3 contenteditable='true' id=${id} onblur='nullVerify(this.id)'>Etapa ${nmrEtapa}</h3>`+
+                                `<input type='button' class='buttonRemove' value='-' onClick='removeInput(this);'><br>` + 
                                 "<div class='user-box'><input type='text' name='myInputs[]' required=''><label for='equipe'>Equipe Responsável:</label> </div>" + 
-                                "<div class='user-box'><input type='text' name='myInputs[]' required=''><label for='valor'>Valor da obra:</label> </div>" + 
-                                "</div></div>";
+                                "<div class='user-box'><input type='text' name='daterange' required=''/><label for='equipe'>Tempo estimado da etapa:</label> </div>" + 
+                                "<div class='user-box'><input type='text' name='myInputs[]' required=''><label for='valor'>Valor da etapa:</label> </div>"
             document.getElementById('etapas').appendChild(newdiv);
+            $(function() {            
+                $('input[name="daterange"]').daterangepicker({
+                    opens: 'center',
+                    "minDate": minDate,
+                    "maxDate": maxDate,
+                    "locale": {
+                        "format": "DD/MM/YYYY",
+                        "separator": " - ",
+                        "applyLabel": "Confirmar",
+                        "cancelLabel": "Cancelar",
+                        "fromLabel": "De",
+                        "toLabel": "Até",
+                        "customRangeLabel": "Custom",
+                        "weekLabel": "W",
+                        "daysOfWeek": [
+                            "Dom",
+                            "Seg",
+                            "Ter",
+                            "Qua",
+                            "Qui",
+                            "Sex",
+                            "Sab"
+                        ],
+                        "monthNames": [
+                            "Janeiro",
+                            "Fevereiro",
+                            "Março",
+                            "Abril",
+                            "Maio",
+                            "Junho",
+                            "Julho",
+                            "Agosto",
+                            "Setembro",
+                            "Outubro",
+                            "Novembro",
+                            "Dezembro"
+                        ],
+                        "firstDay": 1
+                    }
+                    
+                });
+            });
+            nmrEtapa++;
+            id++;
         }
     
         function removeInput(btn){
             btn.parentNode.remove();
+            nmrEtapa--;
         }
-    
+
+        function nullVerify(idItem){
+            var etapaTitle = document.getElementById(`${idItem}`)
+            if(etapaTitle.innerText === ""){
+                idItem++;
+                etapaTitle.innerText = `Etapa ${(idItem)}`
+            }
+        }
+        
     </script>
 </body>
 </html>
