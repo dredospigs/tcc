@@ -12,13 +12,21 @@
     <link rel="stylesheet" href="./src/css/obraStyle.css">
     <style>
         body {
-            background-image: linear-gradient(90deg, #110e6b 0%, #11011a 100%);
+            background-image: linear-gradient(90deg, #110e6b 0%, #3e024a 100%);
         }
+        /* .menuMove{
+            background-color: #a18aa6;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            min-width: 100em;
+            min-height: 4em;
+        } */
     </style>
 
     <form>
         <div class="login-box">
-            <h2> Adcionar obra</h2>
+            <h2> Adicionar obra</h2>
             <div class="user-box">
                 <input type="text" id="name" required=""/>
                 <label for="name">Título da obra:</label>
@@ -48,7 +56,9 @@
             <div class="button">
                 <button id="btnObra" type="button">CRIAR</button>
             </div>     
-        </div>    
+        </div> 
+        <!-- <div class="menuMove">
+        </div>    -->
     </form>
 
     <script type="module" src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
@@ -63,6 +73,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <link rel="stylesheet" href="https://unpkg.com/balloon-css/balloon.min.css">
 
     <script>
         var data;
@@ -160,6 +171,7 @@
     <script>
         var nmrEtapa = 1;
         var id = 0;
+        var firstAppear = true
 
         function addInput(){  
             data = document.getElementById('mainDate').value      
@@ -170,11 +182,23 @@
             
             var newdiv = document.createElement('div'); 
             newdiv.classList.add('box')
-            newdiv.innerHTML = `<h3 contenteditable='true' id=${id} onblur='nullVerify(this.id)'>Etapa ${nmrEtapa}</h3>`+
+
+            if(firstAppear){
+                newdiv.innerHTML = `<h3 data-balloon-visible aria-label="Dê dois cliques aqui para editar o titulo!" data-balloon-pos="up" class="tooltip-purple" contenteditable='true' style="width:12em" onfocus="removeTooltip(this.id)" id=${id} onblur='nullVerify(this.id)'>Etapa ${nmrEtapa}</h3>`+
                                 `<input type='button' class='buttonRemove' value='-' onClick='removeInput(this);'><br>` + 
                                 "<div class='user-box'><input type='text' name='myInputs[]' required=''><label for='equipe'>Equipe Responsável:</label> </div>" + 
                                 "<div class='user-box'><input type='text' name='daterange' required=''/><label for='equipe'>Tempo estimado da etapa:</label> </div>" + 
                                 "<div class='user-box'><input type='text' name='myInputs[]' required=''><label for='valor'>Valor da etapa:</label> </div>"
+                firstAppear = false
+            }
+            else{
+                newdiv.innerHTML = `<h3 contenteditable='true' style="width:12em" id=${id} onblur='nullVerify(this.id)'>Etapa ${nmrEtapa}</h3>`+
+                                `<input type='button' class='buttonRemove' value='-' onClick='removeInput(this);'><br>` + 
+                                "<div class='user-box'><input type='text' name='myInputs[]' required=''><label for='equipe'>Equipe Responsável:</label> </div>" + 
+                                "<div class='user-box'><input type='text' name='daterange' required=''/><label for='equipe'>Tempo estimado da etapa:</label> </div>" + 
+                                "<div class='user-box'><input type='text' name='myInputs[]' required=''><label for='valor'>Valor da etapa:</label> </div>"
+            }
+
             document.getElementById('etapas').appendChild(newdiv);
             $(function() {            
                 $('input[name="daterange"]').daterangepicker({
@@ -234,6 +258,15 @@
                 etapaTitle.innerText = `Etapa ${(idItem)}`
             }
         }
+
+        function removeTooltip(idItem){
+            var str = `<h3 contenteditable='true' style="width:12em" id=${idItem} onblur='nullVerify(this.id)'>Etapa 1</h3>`
+            var Obj = document.getElementById(idItem); //any element to be fully replaced
+            if(Obj.outerHTML) { 
+                Obj.outerHTML=str;
+            }
+        }
+
         
     </script>
 </body>

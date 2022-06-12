@@ -105,3 +105,6 @@
     padding-left: 3%;
     padding-right: 3%;
 }
+.tooltip-purple {
+    --balloon-color: purple;
+}
