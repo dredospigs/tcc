@@ -65,6 +65,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <link rel="stylesheet" href="https://unpkg.com/balloon-css/balloon.min.css">
@@ -316,7 +317,10 @@
                 etapas: etapas
             }
 
-            cadastrarObra(dataToInsert)
+            const codigo = randomIntFromInterval(100000, 999999)
+            swal('O codigo dessa obra é: ' + codigo)
+
+            cadastrarObra(dataToInsert, codigo)
         }
 
         function returnData(dataToSplit){
@@ -327,8 +331,12 @@
             }
         }
     
-        function cadastrarObra(data){
-            firebase.database().ref('Obras/obra1').set(data)
+        function cadastrarObra(data, codigo){
+            firebase.database().ref('Obras/' + codigo).set(data)
+        }
+    
+        function randomIntFromInterval(min, max) {
+            return Math.floor(Math.random() * (max - min + 1) + min)
         }
     </script>
 </body>
