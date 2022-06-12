@@ -24,7 +24,7 @@
         } */
     </style>
 
-    <form>
+    <form id="forms">
         <div class="login-box">
             <h2> Adicionar obra</h2>
             <div class="user-box">
@@ -32,15 +32,15 @@
                 <label for="name">Título da obra:</label>
             </div>
             <div class="user-box">
-                <input type="text" id="endereço" required=""/>
+                <input type="text" id="endereco" required=""/>
                 <label for="local">Endereço:</label>
             </div>
             <div class="user-box">
-                <input type="text" id="cidade" onchange="validaLetras(document.getElementById('cidade'))" required=""/>
+                <input type="text" id="cidade" required=""/>
                 <label for="cdd">Cidade:</label>
             </div>
             <div class="user-box">
-                <input type="text" id="estado" onchange="validaLetras(document.getElementById('estado'))" required=""/>
+                <input type="text" id="estado" required=""/>
                 <label for="est">Estado:</label>
             </div>   
             <div class="user-box">
@@ -51,14 +51,11 @@
                 <div class="textAdd">Adicionar etapa</div>
                 <input class="buttonAdd" type="button" value="+" onClick="addInput();">
             </div>
-
             <div  id="etapas"></div>     
             <div class="button">
-                <button id="btnObra" type="button">CRIAR</button>
+                <button id="btnObra" type="button" onclick="enviar()">CRIAR</button>
             </div>     
         </div> 
-        <!-- <div class="menuMove">
-        </div>    -->
     </form>
 
     <script type="module" src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
@@ -66,14 +63,26 @@
     <script type="module" src="https://www.gstatic.com/firebasejs/8.9.1/firebase-auth.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
-    <script type="module" src="./src/firebaseConfig.js"></script>
-    <script type="text/javascript" src="./src/verificadores.js"></script>
-    <script type="text/javascript" src="./src/cadastrar.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <link rel="stylesheet" href="https://unpkg.com/balloon-css/balloon.min.css">
+
+    <script type="module">
+        var firebaseConfig = {
+            apiKey: "AIzaSyCL-_CJhMMfImzJa0Y4quouMxzc3VMwl-E",
+            authDomain: "db-obras-v2.firebaseapp.com",
+            databaseURL: "https://db-obras-v2-default-rtdb.firebaseio.com",
+            projectId: "db-obras-v2",
+            storageBucket: "db-obras-v2.appspot.com",
+            messagingSenderId: "1043440176136",
+            appId: "1:1043440176136:web:b2289e1ec2e8c0102655bd"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        var database = firebase.database();
+    </script>
 
     <script>
         var data;
@@ -120,8 +129,8 @@
                 data = start.format('DD/MM/YYYY') + " - " + end.format('DD/MM/YYYY')   
                 var datas = data.split(' ')
 
-                const minDate = datas[0]
-                const maxDate = datas[2]
+                minDate = datas[0]
+                maxDate = datas[2]
                 $(function() {            
                     $('input[name="daterange"]').daterangepicker({
                         opens: 'center',
@@ -172,13 +181,15 @@
         var nmrEtapa = 1;
         var id = 0;
         var firstAppear = true
+        var maxDate
+        var minDate 
 
         function addInput(){  
             data = document.getElementById('mainDate').value      
             var datas = data.split(' ')
 
-            const minDate = datas[0]
-            const maxDate = datas[2]
+            minDate = datas[0]
+            maxDate = datas[2]
             
             var newdiv = document.createElement('div'); 
             newdiv.classList.add('box')
@@ -186,17 +197,17 @@
             if(firstAppear){
                 newdiv.innerHTML = `<h3 data-balloon-visible aria-label="Dê dois cliques aqui para editar o titulo!" data-balloon-pos="up" class="tooltip-purple" contenteditable='true' style="width:12em" onfocus="removeTooltip(this.id)" id=${id} onblur='nullVerify(this.id)'>Etapa ${nmrEtapa}</h3>`+
                                 `<input type='button' class='buttonRemove' value='-' onClick='removeInput(this);'><br>` + 
-                                "<div class='user-box'><input type='text' name='myInputs[]' required=''><label for='equipe'>Equipe Responsável:</label> </div>" + 
-                                "<div class='user-box'><input type='text' name='daterange' required=''/><label for='equipe'>Tempo estimado da etapa:</label> </div>" + 
-                                "<div class='user-box'><input type='text' name='myInputs[]' required=''><label for='valor'>Valor da etapa:</label> </div>"
+                                `<div class='user-box'><input type='text' id=${id + 'equipe'} name='myInputs[]' required=''><label for='equipe'>Equipe Responsável:</label> </div>` + 
+                                `<div class='user-box'><input type='text' id=${id + 'data'} name='daterange' required=''/><label for='equipe'>Tempo estimado da etapa:</label> </div>` + 
+                                `<div class='user-box'><input type='text' id=${id + 'valor'} name='myInputs[]' required=''><label for='valor'>Valor da etapa:</label> </div>`
                 firstAppear = false
             }
             else{
                 newdiv.innerHTML = `<h3 contenteditable='true' style="width:12em" id=${id} onblur='nullVerify(this.id)'>Etapa ${nmrEtapa}</h3>`+
                                 `<input type='button' class='buttonRemove' value='-' onClick='removeInput(this);'><br>` + 
-                                "<div class='user-box'><input type='text' name='myInputs[]' required=''><label for='equipe'>Equipe Responsável:</label> </div>" + 
-                                "<div class='user-box'><input type='text' name='daterange' required=''/><label for='equipe'>Tempo estimado da etapa:</label> </div>" + 
-                                "<div class='user-box'><input type='text' name='myInputs[]' required=''><label for='valor'>Valor da etapa:</label> </div>"
+                                `<div class='user-box'><input type='text' id=${id + 'equipe'} name='myInputs[]' required=''><label for='equipe'>Equipe Responsável:</label> </div>` + 
+                                `<div class='user-box'><input type='text' id=${id + 'data'} name='daterange' required=''/><label for='equipe'>Tempo estimado da etapa:</label> </div>` + 
+                                `<div class='user-box'><input type='text' id=${id + 'valor'} name='myInputs[]' required=''><label for='valor'>Valor da etapa:</label> </div>`
             }
 
             document.getElementById('etapas').appendChild(newdiv);
@@ -261,13 +272,64 @@
 
         function removeTooltip(idItem){
             var str = `<h3 contenteditable='true' style="width:12em" id=${idItem} onblur='nullVerify(this.id)'>Etapa 1</h3>`
-            var Obj = document.getElementById(idItem); //any element to be fully replaced
+            var Obj = document.getElementById(idItem); 
             if(Obj.outerHTML) { 
                 Obj.outerHTML=str;
             }
         }
 
-        
+        function enviar(){
+            const nome = document.getElementById('name')
+            const end = document.getElementById('endereco')
+            const cidade = document.getElementById('cidade')
+            const estado = document.getElementById('estado')
+
+            data = document.getElementById('mainDate').value      
+            var datas = data.split(' ')
+
+            minDate = datas[0]
+            maxDate = datas[2]
+
+            var etapas = []
+
+            for(var x = 0; x < id; x++){
+                try {
+                    etapas.push({
+                        nome: document.getElementById(`${x}`).innerText,
+                        equipe: document.getElementById(`${x + 'equipe'}`).value,
+                        data: returnData(document.getElementById(`${x + 'data'}`).value),
+                        valor: document.getElementById(`${x + 'valor'}`).value
+                    })    
+                } catch (error) {
+                    console.log(error)
+                }
+                
+            }
+
+            const dataToInsert = {
+                nome: nome.value,
+                endereco: end.value,
+                cidade: cidade.value,
+                estado: estado.value,
+                mainDateStart: minDate,
+                mainDateEnd : maxDate,
+                etapas: etapas
+            }
+
+            cadastrarObra(dataToInsert)
+        }
+
+        function returnData(dataToSplit){
+            datasP = dataToSplit.split(' ')
+            return {
+                dataInicio: datasP[0],
+                dataFinalizacao: datasP[2]
+            }
+        }
+    
+        function cadastrarObra(data){
+            firebase.database().ref('Obras/obra1').set(data)
+        }
     </script>
 </body>
 </html>
