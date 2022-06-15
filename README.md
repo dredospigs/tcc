@@ -13,6 +13,7 @@ TCC de 2022 cuja proposta é criar um aplicativo com suporte mobile e web para a
 
 **Melhorias**
 - `Refatoração do código da tela de obra` Melhorar com o intuito de facilitar a manutenção posterior
+- `Verificações tela de obra`Adicionar verificadores na parte do arquivo da obra
 
 **Bugs**
 - `Layout obra` Bug na tela de obra onde o body do form está fora de proporção
