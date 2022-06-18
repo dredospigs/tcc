@@ -4,7 +4,7 @@
     left: 50%;
     min-width: 2em;
     padding: 3em;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -40%);
     background: rgba(0, 0, 0, 1);
     box-sizing: border-box;
     box-shadow:  0 15px 25px rgba(0, 0, 0, 1);

@@ -198,6 +198,7 @@
             if(firstAppear){
                 newdiv.innerHTML = `<h3 data-balloon-visible aria-label="Dê dois cliques aqui para editar o titulo!" data-balloon-pos="up" class="tooltip-purple" contenteditable='true' style="width:12em" onfocus="removeTooltip(this.id)" id=${id} onblur='nullVerify(this.id)'>Etapa ${nmrEtapa}</h3>`+
                                 `<input type='button' class='buttonRemove' value='-' onClick='removeInput(this);'><br>` + 
+                                `<div class='user-box'><input type='text' id=${id + 'desc'} name='myInputs[]' required=''><label for='desc'>Descrição:</label> </div>` +
                                 `<div class='user-box'><input type='text' id=${id + 'equipe'} name='myInputs[]' required=''><label for='equipe'>Equipe Responsável:</label> </div>` + 
                                 `<div class='user-box'><input type='text' id=${id + 'data'} name='daterange' required=''/><label for='equipe'>Tempo estimado da etapa:</label> </div>` + 
                                 `<div class='user-box'><input type='text' id=${id + 'valor'} name='myInputs[]' required=''><label for='valor'>Valor da etapa:</label> </div>`
@@ -206,6 +207,7 @@
             else{
                 newdiv.innerHTML = `<h3 contenteditable='true' style="width:12em" id=${id} onblur='nullVerify(this.id)'>Etapa ${nmrEtapa}</h3>`+
                                 `<input type='button' class='buttonRemove' value='-' onClick='removeInput(this);'><br>` + 
+                                `<div class='user-box'><input type='text' id=${id + 'desc'} name='myInputs[]' required=''><label for='equipe'>Descrição:</label> </div>` +
                                 `<div class='user-box'><input type='text' id=${id + 'equipe'} name='myInputs[]' required=''><label for='equipe'>Equipe Responsável:</label> </div>` + 
                                 `<div class='user-box'><input type='text' id=${id + 'data'} name='daterange' required=''/><label for='equipe'>Tempo estimado da etapa:</label> </div>` + 
                                 `<div class='user-box'><input type='text' id=${id + 'valor'} name='myInputs[]' required=''><label for='valor'>Valor da etapa:</label> </div>`
@@ -299,7 +301,9 @@
                         nome: document.getElementById(`${x}`).innerText,
                         equipe: document.getElementById(`${x + 'equipe'}`).value,
                         data: returnData(document.getElementById(`${x + 'data'}`).value),
-                        valor: document.getElementById(`${x + 'valor'}`).value
+                        valor: document.getElementById(`${x + 'valor'}`).value,
+                        descricao: document.getElementById(`${x + 'desc'}`).value,
+                        concluido: false,
                     })    
                 } catch (error) {
                     console.log(error)
@@ -307,7 +311,10 @@
                 
             }
 
+            const codigo = randomIntFromInterval(100000, 999999)
+
             const dataToInsert = {
+                cdg: codigo,
                 nome: nome.value,
                 endereco: end.value,
                 cidade: cidade.value,
@@ -316,10 +323,7 @@
                 mainDateEnd : maxDate,
                 etapas: etapas
             }
-
-            const codigo = randomIntFromInterval(100000, 999999)
-            swal('O codigo dessa obra é: ' + codigo)
-
+            
             cadastrarObra(dataToInsert, codigo)
         }
 
@@ -332,7 +336,13 @@
         }
     
         function cadastrarObra(data, codigo){
-            firebase.database().ref('Obras/' + codigo).set(data)
+            firebase.database().ref('Obras/' + codigo).set(data, (error) => {
+                if (error) {
+                    swal('Houve um erro ao cadastrar: ' + error)
+                } else {
+                    swal('O codigo dessa obra é: ' + codigo)
+                }
+            })
         }
     
         function randomIntFromInterval(min, max) {

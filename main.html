@@ -17,67 +17,225 @@
             padding: 0;
             font-family: sans-serif;
             background-color: #1a144a;
-            background-image: linear-gradient(180deg, #1a144a 4%, #190e0c 100%);
+            background-image: linear-gradient(90deg, #1a144a 4%, #190e0c 100%);
         }
         .accordion {
-        background-color: #eee;
-        color: #444;
-        cursor: pointer;
-        padding: 18px;
-        width: 100%;
-        text-align: left;
-        border: none;
-        outline: none;
-        transition: 0.4s;
+            background-color: #eee;
+            color: #444;
+            margin-top: 1em;
+            margin-left: 1em;
+            margin-right: 1em;
+            cursor: pointer;
+            padding-top: 2%;
+            padding-left: 2%;
+            padding-right: 2%;
+            min-width: 92%;
+            text-align: left;
+            border: none;
+            outline: none;
+            transition: 0.4s;
+            border-radius: 2px 2px 2px 0;
         }
         .active, .accordion:hover {
-        background-color: #ccc;
+            background-color: #ccc;
         }
-
         .panel {
-        padding: 0 18px;
-        background-color: white;
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.2s ease-out;
+            padding: 0;
+            background-color: white;
+            padding-left: 2%;
+            max-height: 0;
+            overflow: hidden;
+            margin-left: 0.84em;
+            margin-right: 1em;
+            max-width: 80%;
+            box-shadow: #190e0c;
+            transition: max-height 0.2s ease-out;
+            border-radius: 0 0 2px 2px;
         }
-    </style>
-    
-    <form>
-        
-        <button class="accordion">Obra 1</button>
-        <div class="panel">
-            <p>Etapa 1...</p>
-        </div>
-
-        <button class="accordion">Obra 2</button>
-        <div class="panel">
-            <p>Etapa 1...</p>
-        </div>
-        <div class="button">
-            <button id="btnObra" type="button" onclick="newObra()" >NOVA OBRA</button>
-        </div> 
-    </form>
-
-    <script type="text/javascript">
-        function newObra(){
-            window.location.href = "obra.html"
+        .accordion .titleObra{
+            font-family: 'Impact, fantasy';
+            font-weight: bold;
+            padding: 2%;
+            font-size: xx-large;  
         }
-        var acc = document.getElementsByClassName("accordion");
-        var i;
+        .accordion .dataObra{
+            font-family: 'monospace';
+            padding-left: 2%;
+            padding-bottom: 1%;
+            font-size: medium;  
+        }
+        .accordion .precoObra{
+            font-family: 'monospace';
+            padding-left: 2%;
+            padding-bottom: 1%;
+            font-size: small;  
+        }
+        .accordion .porcObraN{
+            font-family: 'Chalkduster', fantasy;
+            padding-left: 2%;
+            padding-bottom: 2%;
+            font-size: large;
+        }
+        .panel .codigo{
+            padding-top: 5px;
+            font-size: smaller;
+            text-align: center;
+        }
+        .panel .descricaoEtapa{
+            font-family: 'Impact, fantasy';
+            padding: 2%;
+            font-size: large;
+        }
+        .panel .infoEtapa{
+            font-family: 'monospace';
+            color:darkslategray;
+            margin-top: -10px;
+            padding: 2%;
+            font-size: medium;
+        }
+    </style>    
+    <script type="module" src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/8.9.1/firebase-database.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/8.9.1/firebase-auth.js"></script>
+    <script type="module">
+        var firebaseConfig = {
+            apiKey: "AIzaSyCL-_CJhMMfImzJa0Y4quouMxzc3VMwl-E",
+            authDomain: "db-obras-v2.firebaseapp.com",
+            databaseURL: "https://db-obras-v2-default-rtdb.firebaseio.com",
+            projectId: "db-obras-v2",
+            storageBucket: "db-obras-v2.appspot.com",
+            messagingSenderId: "1043440176136",
+            appId: "1:1043440176136:web:b2289e1ec2e8c0102655bd"
+        };
 
-        for (i = 0; i < acc.length; i++) {
-            acc[i].addEventListener("click", function() {
-                this.classList.toggle("active");
-                var panel = this.nextElementSibling;
-                if (panel.style.maxHeight) {
-                panel.style.maxHeight = null;
-                } else {
-                panel.style.maxHeight = panel.scrollHeight + "px";
+        firebase.initializeApp(firebaseConfig);
+        var database = firebase.database();
+    </script>
+
+    <div id="obras"></div>
+    <div class="button">
+        <button id="btnObra" style="margin:10%" type="button" onclick="accordion()" >NOVA OBRA</button>
+    </div> 
+
+    <script type="module">
+
+        window.onload = async function show(){
+            var obrasBanco = firebase.database().ref('Obras/');
+            var snapshot = await  obrasBanco.once('value')
+
+            if(snapshot.exists()){
+                snapshot.forEach(function(item) {
+                    var data = item.val();
+                    genAccordion(data)                   
+                })
+            }
+            
+            accordion()
+        }        
+
+        function genAccordion(data){
+            console.log(data)
+            let valorTT = 0;
+            let porcentagemTT = 0;
+            
+            try {
+                valorTT = precoTT(data.etapas)
+                porcentagemTT = porcentagemTTcalc(data.etapas)
+            } catch (error) {
+                
+            }
+            
+
+            var newdiv = document.createElement('div'); 
+            newdiv.innerHTML = `<div> 
+                                    <button class="accordion">
+                                        <div class="titleObra">${data.nome}</div>
+                                        <div class="dataObra">Data de finalização: ${data.mainDateEnd}</div>
+                                        <div class="precoObra">Preço: ${valorTT}</div>
+                                        <div class="porcObraN">${Number(porcentagemTT).toFixed(2)}%</div>
+                                    </button>
+                            <div class="panel"> 
+                                <div class="codigo">
+                                    Código da obra:
+                                    <span style="color:#53b0db;">${data.cdg}</span>
+                                </div>
+                                <div id="etapas${data.cdg}">                                    
+                                </div>            
+                            </div>
+                        </div>`
+
+            document.getElementById('obras').appendChild(newdiv);
+
+            try {
+                data.etapas.forEach(etapa => {
+                var newEtapa = document.createElement('div');
+
+                var isCompleted = ""
+                if(etapa.concluido){
+                    isCompleted = "checked"
                 }
+
+                newEtapa.innerHTML = `
+                                    <div>
+                                        <input style="margin-top: 10px;" type="checkbox" ${isCompleted}>
+                                            <span style="font-weight:bold">${etapa.nome}</span>
+                                        </input>
+                                        <div class="descricaoEtapa">${etapa.descricao}</div>
+                                        <div class="infoEtapa">
+                                            Data: ${etapa.data.dataInicio} - ${etapa.data.dataFinalizacao}<br>
+                                            Preço: ${etapa.valor}<br>
+                                            Equipe: ${etapa.equipe}
+                                        </div>        
+                                        <hr>            
+                                    </div>`;
+                
+                document.getElementById(`etapas${data.cdg}`).appendChild(newEtapa);
+                });
+            } catch (error) {}
+            
+        }
+
+        function precoTT(etapas){
+            let valorTT = 0
+            etapas.forEach(etapa => {
+                valorTT += Number(etapa.valor)
             });
+            return valorTT
+        }
+    
+        function porcentagemTTcalc(etapas){
+            var qttdt = 0;
+            var qttdc = 0;
+            etapas.forEach(etapa => {
+                if(etapa.concluido){
+                    qttdc++;
+                }
+                qttdt++
+            });
+
+            const porc = (qttdc * 100) / qttdt
+            return porc
         }
     </script>
 
+    <!--accordion script-->
+    <script>
+        function accordion() {
+            var acc = document.getElementsByClassName("accordion");
+            var i;
+            
+            for (i = 0; i < acc.length; i++) {
+                acc[i].addEventListener("click", function() {
+                    this.classList.toggle("active");
+                    var panel = this.nextElementSibling;
+                    if (panel.style.maxHeight) {
+                        panel.style.maxHeight = null;
+                    } else {
+                        panel.style.maxHeight = panel.scrollHeight + "px";
+                    }
+                });
+            }
+        }
+    </script>
 </body>
 </html>
