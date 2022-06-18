@@ -3,7 +3,6 @@ TCC de 2022 cuja proposta é criar um aplicativo com suporte mobile e web para a
 
 ## :factory: Pendencias
 **Desenvolvimento**
-- `Tela inicial` implementar a tela inicial onde haverá os accordions com as obras
 - `Fixed navbar` navbar para se mover entre as telas de adicionar obras, visualizar obras e editar perfil
 - `Perfil` Tela para que o usuário possa editar seu perfil e até mesmo remover sua conta
 - `Adicionar obra por código` Input para que o cliente e funcionário possam adicionar uma nova obra, utilizando o código da obra
@@ -12,6 +11,7 @@ TCC de 2022 cuja proposta é criar um aplicativo com suporte mobile e web para a
 - `Webview` Arrumar a parte do webview para que haja o app
 
 **Melhorias**
+- `Layout tela principal` melhorar o layout da tela inicial
 - `Refatoração do código da tela de obra` Melhorar com o intuito de facilitar a manutenção posterior
 - `Verificações tela de obra`Adicionar verificadores na parte do arquivo da obra
 
