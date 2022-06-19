@@ -184,6 +184,8 @@
         var firstAppear = true
         var maxDate
         var minDate 
+        var token
+        var obrasUser
 
         function addInput(){  
             data = document.getElementById('mainDate').value      
@@ -281,7 +283,11 @@
             }
         }
 
-        function enviar(){
+        async function enviar(){
+            await getUser(localStorage["auth"])
+            console.log(token)
+            console.log(obrasUser)
+
             const nome = document.getElementById('name')
             const end = document.getElementById('endereco')
             const cidade = document.getElementById('cidade')
@@ -325,6 +331,10 @@
             }
             
             cadastrarObra(dataToInsert, codigo)
+
+            var updates = {}
+            updates['/Cadastros/Empresas/' + token + '/obras/'] =  obrasUser + codigo + '|';
+            firebase.database().ref().update(updates);
         }
 
         function returnData(dataToSplit){
@@ -347,6 +357,24 @@
     
         function randomIntFromInterval(min, max) {
             return Math.floor(Math.random() * (max - min + 1) + min)
+        }
+    
+        async function getUser(email){
+            var banco = firebase.database().ref('Cadastros/');
+            var ss = await banco.once('value')
+
+            if(ss.exists()){
+                ss.forEach(function(item) {
+                    var data = item.val();
+
+                    Object.keys(data).forEach(function(key) {
+                        if(data[key].Email === email){
+                            token = data[key].CNPJ
+                            obrasUser = data[key].obras
+                        }
+                    });
+                })
+            }
         }
     </script>
 </body>

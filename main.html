@@ -114,22 +114,36 @@
 
     <div id="obras"></div>
     <div class="button">
-        <button id="btnObra" style="margin:10%" type="button" onclick="accordion()" >NOVA OBRA</button>
+        <button id="btnObra" style="margin:10%" type="button" onclick="newObra()" >NOVA OBRA</button>
     </div> 
 
     <script type="module">
+        var token
+        var obrasUser
 
         window.onload = async function show(){
+            await getUser(localStorage["auth"]) 
+            console.log(obrasUser)
+
+            const obras = obrasUser.split("|")
+
             var obrasBanco = firebase.database().ref('Obras/');
-            var snapshot = await  obrasBanco.once('value')
+            var snapshot = await obrasBanco.once('value')
 
             if(snapshot.exists()){
                 snapshot.forEach(function(item) {
                     var data = item.val();
-                    genAccordion(data)                   
+                    var cdg = data.cdg.toString()
+
+                    for(var x = 0; x < obras.length; x++){
+                        if(cdg === obras[x]){
+                            genAccordion(data)  
+                        }
+                    }                 
                 })
             }
             
+            console.log(localStorage["auth"])
             accordion()
         }        
 
@@ -216,7 +230,27 @@
             const porc = (qttdc * 100) / qttdt
             return porc
         }
-    </script>
+   
+        async function getUser(email){
+
+            var banco = firebase.database().ref('Cadastros/');
+            var ss = await banco.once('value')
+
+            if(ss.exists()){
+                ss.forEach(function(item) {
+                    var data = item.val();
+
+                    Object.keys(data).forEach(function(key) {
+                        if(data[key].Email === email){
+                            token = data[key].CNPJ
+                            obrasUser = data[key].obras
+                        }
+                    });
+                })
+            }
+        }
+
+   </script>
 
     <!--accordion script-->
     <script>

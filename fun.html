@@ -43,26 +43,6 @@
                 <button type="button" id="btn" onclick="enviar()">CADASTRAR</button>
             </div>
         </div>
-    <!--<div class="button">
-        <button id="btnConsultar" type="button" onclick="consultar()">CONSULTAR</button>
-    </div>
-    <div>
-        <textarea rows="4" cols="50" id="id1"></textarea>
-    </div>
-    <div>
-        <label for="tel">CPF para atualizar:</label>
-        <input type="text" id="cpfU"/>
-    </div>
-    <div class="button">
-        <button id="btnAtualizar" type="button" onclick="update()">SELECIONE PARA ATUALIZAR</button>
-    </div>
-    <div>
-        <label for="tel">CPF para Deletar:</label>
-        <input type="text" id="cpfD"/>
-    </div>
-    <div class="button">
-        <button id="btnDelete" type="button" onclick="deletar()">DELETAR</button>
-    </div>-->
     </form>
 
     <script type="module" src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
@@ -78,13 +58,10 @@
     <script type="text/javascript">
         $("#cpf").mask("000.000.000-00");    
         $("#telefone").mask("(00) 00000-0000"); 
-        $("#cnpj").mask("00.000.000/0000-00")         
-        //$("#cpfU").mask("000.000.000-00")        
-        //$("#cpfD").mask("000.000.000-00")
+        $("#cnpj").mask("00.000.000/0000-00")        
     </script>
 
     <script type="text/javascript">
-        var whereIs = 0;
 
         function enviar(){
             var nome = document.getElementById('name');
@@ -108,87 +85,7 @@
             else{
                 alert('Houve um erro na digitação dos dados, por favor, verifique novamente!')
             }
-
-            if(whereIs === 1){                
-                document.getElementById('btn').textContent = "CADASTRAR";                
-                document.getElementById('btnAtualizar').textContent = "SELECIONE PARA ATUALIZAR";
-                limparCampos();
-                document.getElementById('cpf').disabled = false
-                whereIs = 0;
-            }
         }
-        
-        /*
-        function consultar(){
-            document.getElementById('id1').value = ""
-
-            var dadosClientes = firebase.database().ref('Cadastros/Funcionarios');
-            dadosClientes.on('value', (snapshot) => {
-                snapshot.forEach(function(item) {
-                    var data = item.val();
-                    var stringDados = 
-                        data.Nome + " - " +
-                        data.Email + " - " +
-                        data.Senha + " - " +
-                        data.CPF + " - " + 
-                        data.CNPJ_da_empresa + " - " +
-                        data.Telefone + " - " 
-                    document.getElementById('id1').value += stringDados +'\r\n'                        
-                })
-            });           
-        }
-
-        function update(){
-            if(whereIs === 0){
-                var cpfU = document.getElementById('cpfU').value;
-                cpfU = cpfU.replace(/[^\d]+/g,'');
-                var dadosClientes = firebase.database().ref('Cadastros/Funcionarios/' + cpfU + '/');
-
-                dadosClientes.on('value', (snapshot) => {
-                        var data = snapshot.val();
-                        var c = document.getElementById('cpf');
-
-                        document.getElementById('name').value = data.Nome;
-                        document.getElementById('mail').value = data.Email;
-                        document.getElementById('password').value = data.Senha;
-                        document.getElementById('telefone').value = data.Telefone;
-                        document.getElementById('cpf').value = data.CPF;
-                        document.getElementById('cnpj').value = data.CNPJ_da_empresa;     
-                        
-                        c.value = data.CPF;
-                        c.disabled = true;
-                        
-                        document.getElementById('btn').textContent = "ATUALIZAR";
-                        document.getElementById('btnAtualizar').textContent = "CANCELAR";
-                });  
-                
-                whereIs = 1;
-            }
-            else{
-                document.getElementById('btn').textContent = "CADASTRAR";                
-                document.getElementById('btnAtualizar').textContent = "SELECIONE PARA ATUALIZAR";
-                limparCampos();
-                document.getElementById('cpf').disabled = false
-                whereIs = 0;
-            }
-        }
-
-        function deletar(){            
-            var cpfD = document.getElementById('cpfD').value;
-            cpfD = cpfD.replace(/[^\d]+/g,'');
-
-            firebase.database().ref().child('/Cadastros/Funcionarios/' + cpfD).remove();
-        }
-        */
-        function limparCampos(){
-            document.getElementById('name').value = "";
-            document.getElementById('mail').value = "";
-            document.getElementById('password').value = "";
-            document.getElementById('telefone').value = "";
-            document.getElementById('cpf').value = "";
-            document.getElementById('cnpj').value = "";
-        }
-
     </script>
 
 </body>
