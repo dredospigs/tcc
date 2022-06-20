@@ -10,6 +10,7 @@ TCC de 2022 cuja proposta é criar um aplicativo com suporte mobile e web para a
 - `Webview` Arrumar a parte do webview para que haja o app
 
 **Melhorias**
+- `Logout` sistema de logout (limpar variavel do localStorage)
 - `Layout tela principal` melhorar o layout da tela inicial
 - `Verificação de senha` Verificar se a senha tem mais que 8 digitos
 - `Validação de campo da tela de obra` Validação dos inputs das telas de obra
