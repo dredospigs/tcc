@@ -1,0 +1,86 @@
+html{
+    height: 100%;
+}
+body{
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background-color: #1a144a;
+    background-image: linear-gradient(90deg, #1a144a 4%, #190e0c 100%);
+}
+.accordion {
+    background-color: #eee;
+    color: #444;
+    margin-top: 1em;
+    margin-left: 1em;
+    margin-right: 1em;
+    cursor: pointer;
+    padding-top: 2%;
+    padding-left: 2%;
+    padding-right: 2%;
+    min-width: 92%;
+    max-width: 92%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+    border-radius: 2px 2px 2px 0;
+}
+.active, .accordion:hover {
+    background-color: #ccc;
+}
+.panel {
+    padding: 0;
+    background-color: white;
+    padding-left: 2%;
+    max-height: 0;
+    overflow: hidden;
+    margin-left: 0.84em;
+    margin-right: 1em;
+    max-width: 80%;
+    box-shadow: #190e0c;
+    transition: max-height 0.2s ease-out;
+    border-radius: 0 0 2px 2px;
+}
+.accordion .titleObra{
+    font-family: 'Impact, fantasy';
+    font-weight: bold;
+    padding: 2%;
+    display: block;
+    font-size: xx-large;  
+}
+.accordion .dataObra{
+    font-family: 'monospace';
+    padding-left: 2%;
+    padding-bottom: 1%;
+    font-size: medium;  
+}
+.accordion .precoObra{
+    font-family: 'monospace';
+    padding-left: 2%;
+    padding-bottom: 1%;
+    font-size: small;  
+}
+.accordion .porcObraN{
+    font-family: 'Chalkduster', fantasy;
+    padding-left: 2%;
+    padding-bottom: 2%;
+    font-size: large;
+}
+.panel .codigo{
+    padding-top: 5px;
+    font-size: smaller;
+    text-align: center;
+}
+.panel .descricaoEtapa{
+    font-family: 'Impact, fantasy';
+    padding: 2%;
+    font-size: large;
+}
+.panel .infoEtapa{
+    font-family: 'monospace';
+    color:darkslategray;
+    margin-top: -10px;
+    padding: 2%;
+    font-size: medium;
+}
