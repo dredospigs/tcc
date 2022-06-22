@@ -22,6 +22,7 @@ TCC de 2022 cuja proposta é criar um aplicativo com suporte mobile e web para a
 - `Layout obra` Bug na tela de obra onde o body do form está fora de proporção
 - `Mensagem de campo vazio` Mensagem de campo vazio nas telas de cadastro
 - `Cadastros` na hora de confirmar e enviar o cadstro e em seguida trocar a tela
+- `Letra Overboarding` letra ultrapassando o espaço do campo, no titulo da obra
 
 ## 🔨 Funcionalidades do projeto
 
