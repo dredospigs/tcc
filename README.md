@@ -17,6 +17,7 @@ TCC de 2022 cuja proposta é criar um aplicativo com suporte mobile e web para a
 - `Endereço na tela inicial` Adicionar um local para demonstrar o endereço da obra na tela inicial
 - `Refatoração do código da tela de obra` Melhorar com o intuito de facilitar a manutenção posterior
 - `Verificações tela de obra`Adicionar verificadores na parte do arquivo da obra
+- `Loading` Criar loading pra operação de main
 
 **Bugs**
 - `Layout obra` Bug na tela de obra onde o body do form está fora de proporção
