@@ -4,9 +4,25 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>PERFIL</title>
 </head>
 <body>
-    
+    <link rel="stylesheet" href="./src/css/app.css">
+    <link rel="stylesheet" href="./src/css/navBar.css">
+
+    <div class="oc">
+        <img class="img" id="menuP" style="left: 8%" src="./src/img/menu.png">
+        <img class="img" id="addP" style="left: 42%" src="./src/img/add.png">
+        <img class="img" style="right: 8%" src="./src/img/selectedProfile.png">
+    </div>
+
+    <script>
+        document.getElementById('menuP').addEventListener("click",() => {
+            window.location.href = "main.html"
+        })
+        document.getElementById('addP').addEventListener("click",() => {
+            window.location.href = "obra.html"
+        })
+    </script>
 </body>
 </html>

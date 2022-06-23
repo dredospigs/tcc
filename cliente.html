@@ -24,7 +24,7 @@
                 <label for="mail">E-mail:</label>
             </div>
             <div class="user-box">
-                <input type="password" id="senha" onchange="validaNulo(document.getElementById('password'))" required=""/>
+                <input type="password" id="senha" required=""/>
                 <label for="senha">Senha:</label>
             </div>
             <div class="user-box">
@@ -70,7 +70,7 @@
 
     <script type="text/javascript">
 
-        function enviar(){
+        async function enviar(){
             
             var nome = document.getElementById('name');
             var email = document.getElementById('mail');
@@ -91,13 +91,44 @@
                 validaLetras(estado)              
                 ){
 
-                cadastrarCliente()
-                //window.location.href = "main.html"
+                    var id = cpf.value.replaceAll('.', '');
+                    id = id.replaceAll('-', '');
+                    await cadastrarCliente(nome.value, email.value, password.value, estado.value, telefone.value, id, cep.value, cidade.value)
             }
             else{
                 alert('Houve um erro na digitação dos dados, por favor, verifique novamente!')
             }       
         }
+
+        async function cadastrarCliente(nome, email, password, estado, telefone, cpf, cep, cidade){
+
+            firebase.database().ref('Cadastros/Clientes/' + cpf).set({
+                "Nome" : nome,
+                "Email" : email,
+                "Senha" : password,
+                "Estado" : estado,
+                "Telefone" : telefone,
+                "CPF" : cpf,
+                "CEP" : cep,
+                "Cidade" : cidade,
+                "obras" : '',
+                "class": 'c'
+
+            }).then(() => {
+                firebase.auth().createUserWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    var user = userCredential.user;
+                    localStorage["auth"] = email
+                    window.location.href = "main.html"
+                })
+                .catch((error) => {
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    console.log(errorCode + errorMessage)
+                });
+            });
+        }
+        
     </script>
        
 </body>

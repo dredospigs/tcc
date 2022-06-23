@@ -7,23 +7,6 @@
     <title>Tela inicial</title>
 
     <style>
-        .img{
-            max-width: 50px;
-            max-height: 50px;
-            min-width: 10px;
-            min-height: 10px;
-            position: fixed;
-            bottom: 0;
-            background-color: #070708;
-            margin: 5px;
-        }
-        .oc{
-            background-color: #070708;
-            width: 100%;
-            height: 65px;
-            position: fixed;
-            bottom: 0;
-        }
         .invisible{
             width: 100%;
             height: 100px;
@@ -49,6 +32,7 @@
     </style>
 
     <link rel="stylesheet" href="./src/css/main.css">
+    <link rel="stylesheet" href="./src/css/navBar.css">
 </head>
 <body>
 
@@ -70,18 +54,19 @@
         var database = firebase.database();
     </script>
 
-    <div class="oc">
-        <img class="img" style="left: 8%" src="./src/img/selectedMenu.png">
-        <img class="img" style="left: 42%" src="./src/img/add.png">
-        <img class="img" style="right: 8%" src="./src/img/profile.png">
-    </div>
+    
     <div id="obras"></div>
     <div class="invisible"></div>
-
+    <div class="oc">
+        <img class="img" id="menu" style="left: 8%" onclick="scrollUp()" src="./src/img/selectedMenu.png">
+        <img class="img" id="add" style="left: 42%" src="./src/img/add.png">
+        <img class="img" id="profile" style="right: 8%" src="./src/img/profile.png">
+    </div>
 
     <script type="module">
         var token
         var obrasUser
+        var kindOfUser
 
         window.onload = async function show(){
             await getUser(localStorage["auth"]) 
@@ -117,17 +102,36 @@
             try {
                 valorTT = precoTT(data.etapas)
                 porcentagemTT = porcentagemTTcalc(data.etapas)
-            } catch (error) {
-                
-            }
+            } catch (error) {}
             
+            var btnSave, preco, checkboxAble
+            if(kindOfUser === 'e'){
+                preco = `<div class="precoObra">Preço: ${valorTT}</div>`
+                btnSave = `<table class="tbl" id="btn${data.cdg}">
+                                <tr>
+                                    <td><img src="./src/img/save.png"></td>
+                                    <td><span class="ahoy">Salvar</span></td>
+                                </tr>
+                            </table> ` 
+                checkboxAble = ''
+            }
+            else if(kindOfUser === 'f'){
+                preco = ''
+                checkboxAble = 'disabled'
+                btnSave = ''
+            }
+            else{
+                preco = `<div class="precoObra">Preço: ${valorTT}</div>`
+                checkboxAble = 'disabled'
+                btnSave = ''
+            }
 
             var newdiv = document.createElement('div'); 
             newdiv.innerHTML = `<div> 
                                     <button class="accordion">
                                         <div class="titleObra">${data.nome}</div>
                                         <div class="dataObra">Data de finalização: ${data.mainDateEnd}</div>
-                                        <div class="precoObra">Preço: ${valorTT}</div>
+                                        ${preco}
                                         <div class="porcObraN">${Number(porcentagemTT).toFixed(2)}%</div>
                                     </button>
                             <div class="panel"> 
@@ -137,12 +141,7 @@
                                 </div>
                                 <div id="etapas${data.cdg}">                                    
                                 </div>  
-                                <table class="tbl" id="btn${data.cdg}">
-                                    <tr>
-                                        <td><img src="./src/img/save.png"></td>
-                                        <td><span class="ahoy">Salvar</span></td>
-                                    </tr>
-                                </table>          
+                                ${btnSave}         
                             </div>
                         </div>`
 
@@ -159,7 +158,7 @@
 
                 newEtapa.innerHTML = `
                                     <div>
-                                        <input style="margin-top: 10px;" type="checkbox" ${isCompleted}>
+                                        <input style="margin-top: 10px;" ${checkboxAble} type="checkbox" ${isCompleted}>
                                             <span style="font-weight:bold">${etapa.nome}</span>
                                         </input>
                                         <div class="descricaoEtapa">${etapa.descricao}</div>
@@ -210,14 +209,29 @@
 
                     Object.keys(data).forEach(function(key) {
                         if(data[key].Email === email){
-                            token = data[key].CNPJ
+                            token = data[key].CNPJ || data[key].CPF
                             obrasUser = data[key].obras
+                            kindOfUser = data[key].class
                         }
                     });
                 })
             }
         }
 
+        document.getElementById('add').addEventListener("click",() => {
+            window.location.href = "obra.html"
+        })
+        document.getElementById('profile').addEventListener("click",() => {
+            window.location.href = "perfil.html"
+        })
+        window.scrollUp = function scrollUp(){
+            window.scroll({
+                top: 0, 
+                left: 0, 
+                behavior: 'smooth'
+            });
+        }
+        
    </script>
 
     <!--accordion script-->

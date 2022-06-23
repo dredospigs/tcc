@@ -9,7 +9,6 @@
 </head>
 
 <body>
-
     <link rel="stylesheet" href="./src/css/app.css">
     <link rel="stylesheet" href="./src/css/inputAnimation.css">
     <link rel="stylesheet" href="./src/css/buttonSalesforce.css">
@@ -30,7 +29,7 @@
                 <label for="mail">E-mail:</label>
             </div>
             <div class="user-box">
-                <input type="password" id="senha" onchange="validaNulo(document.getElementById('password'))" required=""/>
+                <input type="password" id="senha" required=""/>
                 <label for="senha">Senha:</label>
             </div>
             <div class="user-box">
@@ -63,7 +62,7 @@
 
     <script type="text/javascript">
 
-        function enviar(){
+        async function enviar(){
             var nomeEmpresa = document.getElementById('nome_da_empresa');
             var nomePropietario = document.getElementById('name');
             var email = document.getElementById('mail');            
@@ -79,15 +78,14 @@
                 validaNulo(telefone)            
                 ){
                     cnpj = cnpj.value.replace(/[^\d]+/g,'');
-                    cadastrarEmpresa(nomePropietario.value, email.value, password.value, nomeEmpresa.value, telefone.value, cnpj)
-                    //window.location.href = "main.html"
+                    await cadastrarEmpresa(nomePropietario.value, email.value, password.value, nomeEmpresa.value, telefone.value, cnpj)
             }
             else{
                 alert('Houve um erro na digitação dos dados, por favor, verifique novamente!')
             }
         }    
         
-        function cadastrarEmpresa(nomePropietario, email, password, nomeEmpresa, telefone, cnpj) {
+        async function cadastrarEmpresa(nomePropietario, email, password, nomeEmpresa, telefone, cnpj) {
             firebase.database().ref('Cadastros/Empresas/' + cnpj).set({
                 "Nome_do_Propietário": nomePropietario,
                 "Email": email,
@@ -95,18 +93,22 @@
                 "Nome_da_Empresa": nomeEmpresa,
                 "Telefone": telefone,
                 "CNPJ": cnpj,
-                "obras": ''
-            });
+                "obras": '',
+                "class": 'e'
 
-            firebase.auth().createUserWithEmailAndPassword(email, password)
+            }).then(() => {
+                firebase.auth().createUserWithEmailAndPassword(email, password)
                 .then((userCredential) => {
                     var user = userCredential.user;
+                    localStorage["auth"] = email
+                    window.location.href = "main.html"
                 })
                 .catch((error) => {
                     var errorCode = error.code;
                     var errorMessage = error.message;
                     console.log(errorCode + errorMessage)
                 });
+            });
         }
         
     </script>

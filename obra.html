@@ -10,13 +10,14 @@
     <link rel="stylesheet" href="./src/css/app.css">
     <link rel="stylesheet" href="./src/css/buttonSalesforce.css">
     <link rel="stylesheet" href="./src/css/obraStyle.css">
+    <link rel="stylesheet" href="./src/css/navBar.css">
     <style>
         body {
             background-image: linear-gradient(90deg, #110e6b 0%, #3e024a 100%);
         }
     </style>
 
-    <form id="forms">
+    <form id="forms" style="z-index: -1">
         <div class="login-box">
             <h2> Adicionar obra</h2>
             <div class="user-box">
@@ -49,6 +50,11 @@
             </div>     
         </div> 
     </form>
+    <div class="oc">
+        <img class="img" id="menuO" style="left: 8%" src="./src/img/menu.png">
+        <img class="img" id="add" style="left: 42%" src="./src/img/selectedAdd.png">
+        <img class="img" id="profileO" style="right: 8%" src="./src/img/profile.png">
+    </div>
 
     <script type="module" src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
     <script type="module" src="https://www.gstatic.com/firebasejs/8.9.1/firebase-database.js"></script>
@@ -368,6 +374,13 @@
                 })
             }
         }
+    
+        document.getElementById('menuO').addEventListener("click",() => {
+            window.location.href = "main.html"
+        })
+        document.getElementById('profileO').addEventListener("click",() => {
+            window.location.href = "perfil.html"
+        })
     </script>
 </body>
 </html>

@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="./src/css/inputAnimation.css">
     <link rel="stylesheet" href="./src/css/buttonSalesforce.css">
 
-    <form method="POST">
+    <form >
         <div class="login-box">
             <h2> Cadastro do Funcionário</h2>
             <div class="user-box">
@@ -24,7 +24,7 @@
                 <label for="mail">E-mail:</label>
             </div>
             <div class="user-box">
-                <input type="password" id="password" onchange="validaNulo(document.getElementById('password'))" required=""/>
+                <input type="password" id="password" required=""/>
                 <label for="password">Senha:</label>
             </div>
             <div class="user-box">
@@ -63,7 +63,7 @@
 
     <script type="text/javascript">
 
-        function enviar(){
+        async function enviar(){
             var nome = document.getElementById('name');
             var email = document.getElementById('mail');
             var password = document.getElementById('password');
@@ -79,12 +79,47 @@
                 validaCNPJ(cnpj) &&
                 validaNulo(telefone)            
                 ){
-                    cadastrarFuncionario()
-                    //window.location.href = "main.html"
+                    var ai =cnpj.value.replaceAll('.', '') 
+                    ai = ai.replaceAll('/', '') 
+                    ai = ai.replaceAll('-', '') 
+
+                    var id = cpf.value.replaceAll('-','')
+                    id = id.replaceAll('.', '')
+
+                    await cadastrarFuncionario(nome.value, email.value, password.value, id, ai, telefone.value)
             }
             else{
                 alert('Houve um erro na digitação dos dados, por favor, verifique novamente!')
             }
+        }
+
+        async function cadastrarFuncionario(nome, email, password, cpf, cnpj, telefone){  
+
+            firebase.database().ref('Cadastros/Funcionarios/'+cpf).set({
+                "Nome" : nome,
+                "Email" : email,
+                "Senha" : password,
+                "Telefone" : telefone,
+                "CPF_empresa" : cpf,
+                "CNPJ" : cnpj,
+                "obras": '',
+                "class": 'f'
+
+            }).then(() => {
+                firebase.auth().createUserWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    var user = userCredential.user;
+                    localStorage["auth"] = email
+                    window.location.href = "main.html"
+                })
+                .catch((error) => {
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    console.log(errorCode + errorMessage)
+                });
+            });
+
+            
         }
     </script>
 
