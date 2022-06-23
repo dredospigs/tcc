@@ -3,7 +3,6 @@ TCC de 2022 cuja proposta é criar um aplicativo com suporte mobile e web para a
 
 ## :factory: Pendencias
 **Desenvolvimento**
-- `Fixed navbar` navbar para se mover entre as telas de adicionar obras, visualizar obras e editar perfil
 - `Perfil` Tela para que o usuário possa editar seu perfil e até mesmo remover sua conta
 - `Adicionar obra por código` Input para que o cliente e funcionário possam adicionar uma nova obra, utilizando o código da obra
 - `Host` Arrumar um local para hostear o site
@@ -22,7 +21,6 @@ TCC de 2022 cuja proposta é criar um aplicativo com suporte mobile e web para a
 **Bugs**
 - `Layout obra` Bug na tela de obra onde o body do form está fora de proporção
 - `Mensagem de campo vazio` Mensagem de campo vazio nas telas de cadastro
-- `Cadastros` na hora de confirmar e enviar o cadstro e em seguida trocar a tela
 - `Letra Overboarding` letra ultrapassando o espaço do campo, no titulo da obra
 
 ## 🔨 Funcionalidades do projeto
