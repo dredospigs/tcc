@@ -87,10 +87,10 @@
         
         async function cadastrarEmpresa(nomePropietario, email, password, nomeEmpresa, telefone, cnpj) {
             firebase.database().ref('Cadastros/Empresas/' + cnpj).set({
-                "Nome_do_Propietário": nomePropietario,
+                "NomeProprietario": nomePropietario,
                 "Email": email,
                 "Senha": password,
-                "Nome_da_Empresa": nomeEmpresa,
+                "NomeEmpresa": nomeEmpresa,
                 "Telefone": telefone,
                 "CNPJ": cnpj,
                 "obras": '',
