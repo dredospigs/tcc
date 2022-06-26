@@ -98,18 +98,14 @@
     </div>
     
     <script>
-        var userData
-        var nome
-        var empresa
-        var telefone
+        var userData, nome, empresa, telefone, cnpj, cep, estado, cidade
 
         window.onload = async function inputShow(){
             await getUser(localStorage["auth"]) 
             console.log(userData)
-
+            
+            document.getElementById('loading').remove()
             if(userData.class === 'e'){
-                document.getElementById('loading').remove()
-
                 var newdiv = document.createElement('div'); 
                 newdiv.innerHTML = `
                     <div class="user-box">
@@ -148,24 +144,152 @@
 
                 insertOnInput(userData)
             }
+            else if(userData.class === 'f'){
+                var newdiv = document.createElement('div'); 
+                newdiv.innerHTML = `
+                    <div class="user-box">
+                        <input type="text" id="cpf" required=""/>
+                        <label for="cpf">CPF:</label>
+                    </div>   
+                    <div class="user-box">
+                        <input type="text" id="email" required=""/>
+                        <label for="email">Email:</label>
+                    </div>       
+                    <div class="user-box">
+                        <input type="text" id="nomeFun" required=""/>
+                        <label for="nomeFun">Nome:</label>
+                    </div>
+                    <div class="user-box">
+                        <input type="text" id="cnpj" required=""/>
+                        <label for="cnpj">CNPJ da Empresa:</label>
+                    </div> 
+                    <div class="user-box">
+                        <input type="text" id="telefone" required=""/>
+                        <label for="tel">Telefone:</label>
+                    </div>   
+                    <div>
+                        <button class="btnR" id="btnUpdate" type="button" onclick="ableToUpdate()">Editar</button>
+                    </div>
+                    <div>
+                        <button class="btnR" id="btnSave" type="button" style="background-color: #60d16b;" hidden="hidden" onclick="save()">Salvar </button>
+                    </div>`
+
+                document.getElementById('itens').appendChild(newdiv);
+
+                nome = document.getElementById('nomeFun')                  
+                telefone = document.getElementById('telefone')
+                await new Promise(r => setTimeout(r, 1000));
+
+                insertOnInput(userData)
+            }
+            else if(userData.class === 'c'){
+                var newdiv = document.createElement('div'); 
+                newdiv.innerHTML = `
+                    <div class="user-box">
+                        <input type="text" id="cpf" required=""/>
+                        <label for="cpf">CPF:</label>
+                    </div>   
+                    <div class="user-box">
+                        <input type="text" id="email" required=""/>
+                        <label for="email">Email:</label>
+                    </div>       
+                    <div class="user-box">
+                        <input type="text" id="nomeC" required=""/>
+                        <label for="nomeC">Nome:</label>
+                    </div>
+                    <div class="user-box">
+                        <input type="text" id="cidade" required=""/>
+                        <label for="cidade">Cidade:</label>
+                    </div> 
+                    <div class="user-box">
+                        <input type="text" id="estado" required=""/>
+                        <label for="estado">Estado:</label>
+                    </div> 
+                    <div class="user-box">
+                        <input type="text" id="cep" required=""/>
+                        <label for="cep">CEP:</label>
+                    </div> 
+                    <div class="user-box">
+                        <input type="text" id="telefone" required=""/>
+                        <label for="tel">Telefone:</label>
+                    </div>   
+                    <div>
+                        <button class="btnR" id="btnUpdate" type="button" onclick="ableToUpdate()">Editar</button>
+                    </div>
+                    <div>
+                        <button class="btnR" id="btnSave" type="button" style="background-color: #60d16b;" hidden="hidden" onclick="save()">Salvar </button>
+                    </div>`
+
+                document.getElementById('itens').appendChild(newdiv);
+
+                nome = document.getElementById('nomeC')                  
+                telefone = document.getElementById('telefone')
+                estado = document.getElementById('estado')
+                cidade = document.getElementById('cidade')
+                cep = document.getElementById('cep')
+                await new Promise(r => setTimeout(r, 1000));
+
+                insertOnInput(userData)
+            }
         }
 
-        function insertOnInput(data){         
-            var cnpj = document.getElementById('cnpj')  
-            var email = document.getElementById('email')
+        function insertOnInput(data){ 
+            if(userData.class === 'e'){
+                var cnpj = document.getElementById('cnpj')  
+                var email = document.getElementById('email')
 
-            email.value = data.Email
-            telefone.value = data.Telefone
-            cnpj.value = data.CNPJ
-            empresa.value = data.Nome_da_Empresa
-            nome.value = data.Nome_do_Propietário
+                email.value = data.Email
+                telefone.value = data.Telefone
+                cnpj.value = data.CNPJ
+                empresa.value = data.Nome_da_Empresa
+                nome.value = data.Nome_do_Propietário
 
-            cnpj.disabled = true
-            email.disabled = true
-            toggleAble(true);
-            
-            $("#telefone").mask("(00) 0000-0000");          
-            $("#cnpj").mask("00.000.000/0000-00");
+                cnpj.disabled = true
+                email.disabled = true
+                toggleAble(true);
+                
+                $("#telefone").mask("(00) 0000-0000");          
+                $("#cnpj").mask("00.000.000/0000-00");
+            }
+            else if(userData.class === 'f'){
+                var cpf = document.getElementById('cpf')  
+                var email = document.getElementById('email')
+                var cnpjF = document.getElementById('cnpj')
+
+                email.value = data.Email
+                telefone.value = data.Telefone
+                cpf.value = data.CPF
+                cnpjF.value = data.CNPJ
+                nome.value = data.Nome
+
+                cpf.disabled = true
+                email.disabled = true
+                toggleAble(true);
+                
+                $("#telefone").mask("(00) 0000-0000");          
+                $("#cnpj").mask("00.000.000/0000-00");   
+                $("#cpf").mask("000.000.000-00");
+            }
+            else if(userData.class === 'c'){
+                var cpf = document.getElementById('cpf')  
+                var email = document.getElementById('email')
+
+                email.value = data.Email
+                telefone.value = data.Telefone
+                cpf.value = data.CPF
+                estado.value = data.Estado
+                cidade.value = data.Cidade
+                cep.value = data.CEP
+                nome.value = data.Nome
+
+                cpf.disabled = true
+                email.disabled = true
+                toggleAble(true);
+                
+                $("#telefone").mask("(00) 0000-0000");          
+                $("#cep").mask("00000-000");   
+                $("#cpf").mask("000.000.000-00");
+            }
         }
 
         async function getUser(email){
@@ -185,12 +309,12 @@
             }
         }
 
-        function ableToUpdate(forceDisabled){
+        function ableToUpdate(){
             let btnUpdate = document.getElementById("btnUpdate")
             let btnSave= document.getElementById("btnSave");
             let hidden = btnSave.getAttribute("hidden");
 
-            if (hidden || !forceDisabled) {
+            if (hidden) {
                 //atualizando
                 btnSave.removeAttribute("hidden");
 
@@ -209,22 +333,43 @@
         }
 
         function toggleAble(cond){
+            if(userData.class === 'e'){
+                empresa.disabled = cond
+            }
+            else if( userData === 'f'){
+                document.getElementById('cnpj').disabled = cond
+            }
+
             telefone.disabled = cond
-            empresa.disabled = cond
             nome.disabled = cond
         }
 
         function save(){
             var updates = {}
-            updates['/Cadastros/Empresas/' + userData.CNPJ + '/Nome_da_Empresa/'] =  empresa.value;
-            updates['/Cadastros/Empresas/' + userData.CNPJ + '/Nome_do_Propietário/'] = nome.value;
-            updates['/Cadastros/Empresas/' + userData.CNPJ + '/Telefone/'] =  telefone.value;
+
+            if(userData.class === 'e'){
+                updates['/Cadastros/Empresas/' + userData.CNPJ + '/Nome_da_Empresa/'] =  empresa.value;
+                updates['/Cadastros/Empresas/' + userData.CNPJ + '/Nome_do_Propietário/'] = nome.value;
+                updates['/Cadastros/Empresas/' + userData.CNPJ + '/Telefone/'] =  telefone.value;
+            }
+            else if(userData.class === 'f'){
+                updates['/Cadastros/Funcionarios/' + userData.CPF + '/CNPJ/'] = document.getElementById('cnpj').value;
+                updates['/Cadastros/Funcionarios/' + userData.CPF + '/Nome/'] = nome.value;
+                updates['/Cadastros/Funcionarios/' + userData.CPF + '/Telefone/'] =  telefone.value;
+            }
+            else if(userData.class === 'c'){
+                updates['/Cadastros/Clientes/' + userData.CPF + '/Estado/'] = estado.value;
+                updates['/Cadastros/Clientes/' + userData.CPF + '/Cidade/'] = cidade.value;
+                updates['/Cadastros/Clientes/' + userData.CPF + '/CEP/'] = cep.value;
+                updates['/Cadastros/Clientes/' + userData.CPF + '/Nome/'] = nome.value;
+                updates['/Cadastros/Clientes/' + userData.CPF + '/Telefone/'] =  telefone.value;
+            }
 
             firebase.database().ref().update(updates)
             .then(() => {
                 swal('Atualizado com sucesso!')
                 toggleAble(true)
-                ableToUpdate(true)
+                ableToUpdate()
             });
         }
 
