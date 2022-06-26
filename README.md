@@ -4,7 +4,7 @@ TCC de 2022 cuja proposta é criar um aplicativo com suporte mobile e web para a
 ## :factory: Pendencias
 **Desenvolvimento**
 - `graficos` adicionar uma amneira de colocar graficos (chartjs?)
-- `Perfil` Tela para que o usuário possa editar seu perfil e até mesmo remover sua conta
+- `Perfil` remover sua conta
 - `Adicionar obra por código` Input para que o cliente e funcionário possam adicionar uma nova obra, utilizando o código da obra
 - `Host` Arrumar um local para hostear o site
 - `Webview` Arrumar a parte do webview para que haja o app
