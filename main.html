@@ -70,8 +70,7 @@
 
         window.onload = async function show(){
             await getUser(localStorage["auth"]) 
-            console.log(obrasUser)
-
+            
             const obras = obrasUser.split("|")
 
             var obrasBanco = firebase.database().ref('Obras/');
@@ -219,7 +218,12 @@
         }
 
         document.getElementById('add').addEventListener("click",() => {
-            window.location.href = "obra.html"
+            if(kindOfUser === 'e'){
+                window.location.href = "obra.html"
+            }
+            else{
+                window.location.href = "obraCode.html"
+            }
         })
         document.getElementById('profile').addEventListener("click",() => {
             window.location.href = "perfil.html"

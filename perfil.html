@@ -377,7 +377,12 @@
             window.location.href = "main.html"
         })
         document.getElementById('addP').addEventListener("click",() => {
-            window.location.href = "obra.html"
+            if(userData.class === 'e'){
+                window.location.href = "obra.html"
+            }
+            else{
+                window.location.href = "obraCode.html"
+            }
         })
     </script>
 </body>
