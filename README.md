@@ -5,7 +5,6 @@ TCC de 2022 cuja proposta é criar um aplicativo com suporte mobile e web para a
 **Desenvolvimento**
 - `graficos` adicionar uma amneira de colocar graficos (chartjs?)
 - `Perfil` remover sua conta
-- `Adicionar obra por código` Input para que o cliente e funcionário possam adicionar uma nova obra, utilizando o código da obra
 - `Host` Arrumar um local para hostear o site
 - `Webview` Arrumar a parte do webview para que haja o app
 
@@ -23,6 +22,7 @@ TCC de 2022 cuja proposta é criar um aplicativo com suporte mobile e web para a
 - `Layout obra` Bug na tela de obra onde o body do form está fora de proporção
 - `Mensagem de campo vazio` Mensagem de campo vazio nas telas de cadastro
 - `Letra Overboarding` letra ultrapassando o espaço do campo, no titulo da obra
+- `Funcionario vendo preço da etapa` caso o usuário logado seja um funcionario, ainda aparece o preço da etapa
 
 ## 🔨 Funcionalidades do projeto
 
