@@ -35,9 +35,10 @@ body{
     padding-left: 2%;
     max-height: 0;
     overflow: hidden;
-    margin-left: 0.84em;
+    margin-top: -6px;
+    margin-left: 1em;
     margin-right: 1em;
-    max-width: 80%;
+    max-width: 90%;
     box-shadow: #190e0c;
     transition: max-height 0.2s ease-out;
     border-radius: 0 0 2px 2px;
@@ -68,9 +69,10 @@ body{
     font-size: large;
 }
 .panel .codigo{
+    margin-top: 10px;
     padding-top: 5px;
-    font-size: smaller;
-    text-align: center;
+    font-size: medium;
+    text-align: left;
 }
 .panel .descricaoEtapa{
     font-family: 'Impact, fantasy';

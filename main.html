@@ -29,10 +29,25 @@
             font-size: large;
             font-family: "Times New Roman", Helvetica, sans-serif;
         }
+        .profileOption{
+            position: absolute;
+            width: 10rem;
+            height: 10rem;;
+            background-color: rgb(200, 200, 200);
+            border-radius: 5px;
+            right: 0;
+            bottom: 0;
+        }
     </style>
 
     <link rel="stylesheet" href="./src/css/main.css">
     <link rel="stylesheet" href="./src/css/navBar.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -57,8 +72,27 @@
     
     <div id="obras"></div>
     <div class="invisible"></div>
+    <!-- Modal -->
+    <div class="modal fade" id="chartModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Status da obra</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <canvas id="myChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="oc">
-        <img class="img" id="menu" style="left: 8%" onclick="scrollUp()" src="./src/img/selectedMenu.png">
+        <img class="img" id="menu" style="left: 8%" onclick="scrollUp()" src="./src/img/selectedHome.png">
         <img class="img" id="add" style="left: 42%" src="./src/img/add.png">
         <img class="img" id="profile" style="right: 8%" src="./src/img/profile.png">
     </div>
@@ -93,88 +127,7 @@
             accordion()
         }        
 
-        function genAccordion(data){
-            console.log(data)
-            let valorTT = 0;
-            let porcentagemTT = 0;
-            
-            try {
-                valorTT = precoTT(data.etapas)
-                porcentagemTT = porcentagemTTcalc(data.etapas)
-            } catch (error) {}
-            
-            var btnSave, preco, checkboxAble
-            if(kindOfUser === 'e'){
-                preco = `<div class="precoObra">Preço: ${valorTT}</div>`
-                btnSave = `<table class="tbl" id="btn${data.cdg}">
-                                <tr>
-                                    <td><img src="./src/img/save.png"></td>
-                                    <td><span class="ahoy">Salvar</span></td>
-                                </tr>
-                            </table> ` 
-                checkboxAble = ''
-            }
-            else if(kindOfUser === 'f'){
-                preco = ''
-                checkboxAble = 'disabled'
-                btnSave = ''
-            }
-            else{
-                preco = `<div class="precoObra">Preço: ${valorTT}</div>`
-                checkboxAble = 'disabled'
-                btnSave = ''
-            }
-
-            var newdiv = document.createElement('div'); 
-            newdiv.innerHTML = `<div> 
-                                    <button class="accordion">
-                                        <div class="titleObra">${data.nome}</div>
-                                        <div class="dataObra">Data de finalização: ${data.mainDateEnd}</div>
-                                        ${preco}
-                                        <div class="porcObraN">${Number(porcentagemTT).toFixed(2)}%</div>
-                                    </button>
-                            <div class="panel"> 
-                                <div class="codigo">
-                                    Código da obra:
-                                    <span style="color:#53b0db;">${data.cdg}</span>
-                                </div>
-                                <div id="etapas${data.cdg}">                                    
-                                </div>  
-                                ${btnSave}         
-                            </div>
-                        </div>`
-
-            document.getElementById('obras').appendChild(newdiv);
-
-            try {
-                data.etapas.forEach(etapa => {
-                var newEtapa = document.createElement('div');
-
-                var isCompleted = ""
-                if(etapa.concluido){
-                    isCompleted = "checked"
-                }
-
-                newEtapa.innerHTML = `
-                                    <div>
-                                        <input style="margin-top: 10px;" ${checkboxAble} type="checkbox" ${isCompleted}>
-                                            <span style="font-weight:bold">${etapa.nome}</span>
-                                        </input>
-                                        <div class="descricaoEtapa">${etapa.descricao}</div>
-                                        <div class="infoEtapa">
-                                            Data: ${etapa.data.dataInicio} - ${etapa.data.dataFinalizacao}<br>
-                                            Preço: ${etapa.valor}<br>
-                                            Equipe: ${etapa.equipe}
-                                        </div>        
-                                        <hr>            
-                                    </div>`;
-                
-                document.getElementById(`etapas${data.cdg}`).appendChild(newEtapa);
-                });
-            } catch (error) {}
-            
-        }
-
+        
         function precoTT(etapas){
             let valorTT = 0
             etapas.forEach(etapa => {
@@ -217,6 +170,104 @@
             }
         }
 
+        function genAccordion(data){
+            console.log(data)
+            let valorTT = 0;
+            let porcentagemTT = 0;
+            
+            try {
+                valorTT = precoTT(data.etapas)
+                porcentagemTT = porcentagemTTcalc(data.etapas)
+            } catch (error) {}
+            
+            var btnSave, preco, checkboxAble
+            if(kindOfUser === 'e'){
+                preco = `<div class="precoObra">Preço: ${valorTT}</div>`
+                btnSave = `<table class="tbl" id="btn${data.cdg}">
+                                <tr>
+                                    <td><img src="./src/img/save.png"></td>
+                                    <td><span class="ahoy">Salvar</span></td>
+                                </tr>
+                            </table> ` 
+                checkboxAble = ''
+            }
+            else if(kindOfUser === 'f'){
+                preco = ''
+                checkboxAble = 'disabled'
+                btnSave = ''
+            }
+            else{
+                preco = `<div class="precoObra">Preço: ${valorTT}</div>`
+                checkboxAble = 'disabled'
+                btnSave = ''
+            }
+
+            var newdiv = document.createElement('div'); 
+            newdiv.innerHTML = `<div> 
+                                    <button class="accordion">
+                                        <div class="titleObra">${data.nome}</div>
+                                        <div class="dataObra">Data de finalização: ${data.mainDateEnd}</div>
+                                        ${preco}
+                                        <div class="porcObraN">${Number(porcentagemTT).toFixed(2)}%</div>
+                                    </button>
+                            <div class="panel"> 
+                                <div style="display:inline-block;vertical-align:top;">
+                                    <div class="codigo">
+                                        Código da obra:
+                                        <span style="color:#53b0db;">${data.cdg}</span>
+                                    </div>
+                                    </div>
+                                    <div style="display:inline-block;">
+                                    <p>
+                                        <img height="20" width="20" style="margin-top : 15px; margin-left : 7rem" data-toggle="modal" data-target="#chartModal" src="./src/img/pie-chart.png"></img>
+                                    </p>
+                                </div>
+                                <hr style="margin-top : -1px">
+                                <div id="etapas${data.cdg}">                                    
+                                </div>  
+                                ${btnSave}         
+                            </div>
+                        </div>`
+
+            document.getElementById('obras').appendChild(newdiv);
+
+            try {
+                data.etapas.forEach(etapa => {
+                var newEtapa = document.createElement('div');
+
+                var isCompleted = ""
+                if(etapa.concluido){
+                    isCompleted = "checked"
+                }
+
+                var precoEtapa
+                if(kindOfUser === 'f'){
+                    precoEtapa = ''
+                }
+                else{
+                    precoEtapa = `Preço: ${etapa.valor}<br>`
+                }
+
+                newEtapa.innerHTML = `
+                                    <div>
+                                        <input style="margin-top: 10px;" ${checkboxAble} type="checkbox" ${isCompleted}>
+                                            <span style="font-weight:bold">${etapa.nome}</span>
+                                        </input>
+                                        <div class="descricaoEtapa">${etapa.descricao}</div>
+                                        <div class="infoEtapa">
+                                            Data: ${etapa.data.dataInicio} - ${etapa.data.dataFinalizacao}<br>
+                                            ${precoEtapa}
+                                            Equipe: ${etapa.equipe}
+                                        </div>        
+                                        <hr>            
+                                    </div>`;
+                
+                document.getElementById(`etapas${data.cdg}`).appendChild(newEtapa);
+                });
+            } catch (error) {}
+            
+        }
+
         document.getElementById('add').addEventListener("click",() => {
             if(kindOfUser === 'e'){
                 window.location.href = "obra.html"
@@ -237,6 +288,37 @@
         }
         
    </script>
+
+    <script>
+        const data = {
+            labels: [
+                'Atrasado',
+                'Em dia',
+                'Concluída'
+            ],
+            datasets: [{
+                label: 'My First Dataset',
+                data: [300, 50, 100],
+                backgroundColor: [
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)',
+                'rgb(255, 205, 86)'
+                ],
+                hoverOffset: 4
+            }]
+        };
+
+        const config = {
+            type: 'pie',
+            data: data,
+        };
+    </script>
+    <script>
+        const myChart = new Chart(
+            document.getElementById('myChart'),
+            config
+        );
+    </script>
 
     <!--accordion script-->
     <script>
