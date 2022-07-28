@@ -7,6 +7,10 @@
     <title>Tela inicial</title>
 
     <style>
+        html, body {
+            max-width: 100% !important;
+            overflow-x: hidden !important;
+        }
         .invisible{
             width: 100%;
             height: 100px;
@@ -29,15 +33,6 @@
             font-size: large;
             font-family: "Times New Roman", Helvetica, sans-serif;
         }
-        .profileOption{
-            position: absolute;
-            width: 10rem;
-            height: 10rem;;
-            background-color: rgb(200, 200, 200);
-            border-radius: 5px;
-            right: 0;
-            bottom: 0;
-        }
     </style>
 
     <link rel="stylesheet" href="./src/css/main.css">
@@ -54,6 +49,7 @@
     <script type="module" src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
     <script type="module" src="https://www.gstatic.com/firebasejs/8.9.1/firebase-database.js"></script>
     <script type="module" src="https://www.gstatic.com/firebasejs/8.9.1/firebase-auth.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script type="module">
         var firebaseConfig = {
             apiKey: "AIzaSyCL-_CJhMMfImzJa0Y4quouMxzc3VMwl-E",
@@ -201,7 +197,6 @@
         }
 
         function genAccordion(data){
-            console.log(data)
             let valorTT = 0;
             let porcentagemTT = 0;
             
@@ -213,7 +208,7 @@
             var btnSave, preco, checkboxAble
             if(kindOfUser === 'e'){
                 preco = `<div class="precoObra">Preço: ${valorTT}</div>`
-                btnSave = `<table class="tbl" id="btn${data.cdg}">
+                btnSave = `<table class="tbl" onclick="saveUpdates(${data.cdg})">
                                 <tr>
                                     <td><img width="25" style="margin-left: 5px; margin-top: 5px; margin-bottom: 5px" height="25" src="./src/img/save.png"></td>
                                     <td><span style="margin-left: 5px; margin-top: 5px; margin-bottom: 5px; margin-right: 5px" class="ahoy">Salvar</span></td>
@@ -238,6 +233,7 @@
                                             <div class="titleObra">${data.nome}</div>
                                             <div class="dataObra">Data de finalização: ${data.mainDateEnd}</div>
                                             ${preco}
+                                            <div class="precoObra">Endereço: ${data.endereco}, ${data.cidade}</div>
                                             <div class="porcObraN">${Number(porcentagemTT).toFixed(2)}%</div>
                                         </button>
                                 <div class="panel"> 
@@ -266,41 +262,66 @@
             document.getElementById('obras').appendChild(newdiv);
 
             try {
+                let idEtapa = 0;
                 data.etapas.forEach(etapa => {
-                var newEtapa = document.createElement('div');
+                    var newEtapa = document.createElement('div');
+                    var isCompleted = ""
+                    if(etapa.concluido){
+                        isCompleted = "checked"
+                    }
 
-                var isCompleted = ""
-                if(etapa.concluido){
-                    isCompleted = "checked"
-                }
+                    var precoEtapa
+                    if(kindOfUser === 'f'){
+                        precoEtapa = ''
+                    }
+                    else{
+                        precoEtapa = `Preço: ${etapa.valor}<br>`
+                    }
 
-                var precoEtapa
-                if(kindOfUser === 'f'){
-                    precoEtapa = ''
-                }
-                else{
-                    precoEtapa = `Preço: ${etapa.valor}<br>`
-                }
-
-                newEtapa.innerHTML = `
-                                    <div>
-                                        <input style="margin-top: 10px;" ${checkboxAble} type="checkbox" ${isCompleted}>
-                                            <span style="font-weight:bold">${etapa.nome}</span>
-                                        </input>
-                                        <div class="descricaoEtapa">${etapa.descricao}</div>
-                                        <div class="infoEtapa">
-                                            Data: ${etapa.data.dataInicio} - ${etapa.data.dataFinalizacao}<br>
-                                            ${precoEtapa}
-                                            Equipe: ${etapa.equipe}
-                                        </div>        
-                                        <hr>            
-                                    </div>`;
-                
-                document.getElementById(`etapas${data.cdg}`).appendChild(newEtapa);
+                    newEtapa.innerHTML = `
+                                        <div>
+                                            <input style="margin-top: 10px;" ${checkboxAble} id="${data.cdg + '' + idEtapa}" type="checkbox" ${isCompleted}>
+                                                <span style="font-weight:bold">${etapa.nome}</span>
+                                            </input>
+                                            <div class="descricaoEtapa">${etapa.descricao}</div>
+                                            <div class="infoEtapa">
+                                                Data: ${etapa.data.dataInicio} - ${etapa.data.dataFinalizacao}<br>
+                                                ${precoEtapa}
+                                                Equipe: ${etapa.equipe}
+                                            </div>        
+                                            <hr>            
+                                        </div>`;
+                    
+                    document.getElementById(`etapas${data.cdg}`).appendChild(newEtapa);
+                    idEtapa++;
                 });
             } catch (error) {}
             
         } 
+
+        window.saveUpdates = async (cdg) => {
+            console.log(cdg)
+            let idT = 0;
+            var updates = {}   
+            do {
+                try {
+                    var isChecked = document.getElementById(cdg + '' + idT).checked
+                    updates['/Obras/' + cdg + '/etapas/' + idT + '/concluido/'] = isChecked
+
+                    idT++;
+                } catch (error) {
+                    break;
+                }                
+            } while (true);
+            firebase.database().ref().update(updates)
+                .then(() => {
+                    swal('Sucesso!' ,'A obra foi atualizada com sucesso!', 'success')
+                    .then(() => {document.location.reload(true);})
+                })
+                .catch(() => {
+                    swal('Houve um erro para atualizar!')
+                })
+        }
 
         window.destroyCanvas = function(){
             myChart.destroy()

@@ -12,6 +12,10 @@
     <link rel="stylesheet" href="./src/css/obraStyle.css">
     <link rel="stylesheet" href="./src/css/navBar.css">
     <style>
+        html, body {
+            max-width: 100% !important;
+            overflow-x: hidden !important;
+        }
         body {
             background-image: linear-gradient(90deg, #110e6b 0%, #3e024a 100%);
         }
@@ -348,7 +352,7 @@
                 if (error) {
                     swal('Houve um erro ao cadastrar: ' + error)
                 } else {
-                    swal('O codigo dessa obra é: ' + codigo)
+                    swal("Sucesso!", 'O codigo dessa obra é: ' + codigo, "success").then(() => {document.location.reload(true);})
                 }
             })
         }
