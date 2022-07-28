@@ -11,32 +11,11 @@
             max-width: 100% !important;
             overflow-x: hidden !important;
         }
-        .invisible{
-            width: 100%;
-            height: 100px;
-            opacity: 0;
-            margin: 5px;
-        }
-        .tbl{
-            background-color: #60d16b;
-            border-radius: 5px;
-            border: #60d16b;
-            color: #fff;
-            padding: 2px 4px 2px 4px;
-            margin-bottom: 10px;
-            margin-top: 10px;
-            margin-left: 33%;
-        }
-        .ahoy{
-            margin-left: 3px;
-            margin-right: 3px;
-            font-size: large;
-            font-family: "Times New Roman", Helvetica, sans-serif;
-        }
     </style>
 
     <link rel="stylesheet" href="./src/css/main.css">
     <link rel="stylesheet" href="./src/css/navBar.css">
+    <link rel="stylesheet" href="./src/css/inputAnimation.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
@@ -50,6 +29,7 @@
     <script type="module" src="https://www.gstatic.com/firebasejs/8.9.1/firebase-database.js"></script>
     <script type="module" src="https://www.gstatic.com/firebasejs/8.9.1/firebase-auth.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/balloon-css/balloon.min.css">
     <script type="module">
         var firebaseConfig = {
             apiKey: "AIzaSyCL-_CJhMMfImzJa0Y4quouMxzc3VMwl-E",
@@ -65,7 +45,13 @@
         var database = firebase.database();
     </script>
 
-    
+    <div class="sObra" id="semObra">
+        Parece que você não tem nenhum obra cadastrada! Clique aqui para adicionar sua primeira!
+        <div class="tr"></div>
+    </div>
+    <div class="login-box" id="itens">
+        <div id="loading" class="lds-ring"><div></div><div></div><div></div><div></div></div>
+    </div> 
     <div id="obras"></div>
     <div class="invisible"></div>
     <!-- Modal -->
@@ -104,7 +90,7 @@
 
         window.onload = async function show(){
             await getUser(localStorage["auth"]) 
-            
+
             const obras = obrasUser.split("|")
 
             var obrasBanco = firebase.database().ref('Obras/');
@@ -123,7 +109,10 @@
                 })
             }
             
-            console.log(localStorage["auth"])
+            document.getElementById('itens').remove()
+            if(obrasUser === ''){
+                document.getElementById('semObra').style.display = 'block'
+            }
             accordion()
         }        
         

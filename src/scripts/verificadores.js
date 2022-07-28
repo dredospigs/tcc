@@ -1,6 +1,20 @@
 function validaNulo(dado){
     if(dado.value === ""){
-        dado.placeholder="Preencha esse campo"
+        dado.style.borderColor = "#ff0000";
+        dado.style.outline = "#ff0000";
+        dado.focus();
+        dado.onkeydown = function keydown_nome() {
+            dado.placeholder=""
+            dado.style.borderColor = "#999999";
+            dado.style.outline = null;
+        }
+        return false
+    }
+    return true
+}
+
+function validaSenha(dado){
+    if(dado.value.length < 8){
         dado.style.borderColor = "#ff0000";
         dado.style.outline = "#ff0000";
         dado.focus();
@@ -21,7 +35,6 @@ function validaCNPJ(cnpjElement){
 
     if(cnpj == '') {
         cnpjElement.style.borderColor = "#ff0000";
-        cnpjElement.placeholder="              Preencha esse campo"
         cnpjElement.style.outline = "#ff0000";
         cnpjElement.focus();
         cnpjElement.onkeydown = function keydown_nome() {
@@ -34,7 +47,6 @@ function validaCNPJ(cnpjElement){
     
     if (cnpj.length != 14){
         cnpjElement.style.borderColor = "#ff0000";
-        cnpjElement.placeholder="              Preencha esse campo"
         cnpjElement.style.outline = "#ff0000";
         cnpjElement.focus();
         cnpjElement.onkeydown = function keydown_nome() {
@@ -58,7 +70,6 @@ function validaCNPJ(cnpjElement){
         cnpj == "99999999999999"){
 
             cnpjElement.style.borderColor = "#ff0000";
-            cnpjElement.placeholder="              Preencha esse campo"
             cnpjElement.style.outline = "#ff0000";
             cnpjElement.focus();
             cnpjElement.onkeydown = function keydown_nome() {
@@ -83,7 +94,6 @@ function validaCNPJ(cnpjElement){
     resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
     if (resultado != digitos.charAt(0)){
         cnpjElement.style.borderColor = "#ff0000";
-        cnpjElement.placeholder="              Preencha esse campo"
         cnpjElement.style.outline = "#ff0000";
         cnpjElement.focus();
         cnpjElement.onkeydown = function keydown_nome() {
@@ -106,7 +116,6 @@ function validaCNPJ(cnpjElement){
     resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
     if (resultado != digitos.charAt(1)){
         cnpjElement.style.borderColor = "#ff0000";
-        cnpjElement.placeholder="              Preencha esse campo"
         cnpjElement.style.outline = "#ff0000";
         cnpjElement.focus();
         cnpjElement.onkeydown = function keydown_nome() {
@@ -125,7 +134,6 @@ function validaEmail(email) {
 
     if(!re.test(email.value)){
         email.style.borderColor = "#ff0000";
-        email.placeholder="              Preencha esse campo"
         email.style.outline = "#ff0000";
         email.focus();
         email.onkeydown = function keydown_nome() {
@@ -141,12 +149,10 @@ function validaEmail(email) {
 function validaLetras(palavra) {
     var filter_nome = /^([a-zA-Zà-úÀ-Ú]|\s+)+$/;
     if (!filter_nome.test(palavra.value)) {
-        palavra.placeholder="              Preencha esse campo"
         palavra.style.borderColor = "#ff0000";
         palavra.style.outline = "#ff0000";
         palavra.focus();
         palavra.onkeydown = function keydown_nome() {
-            palavra.placeholder="              Preencha esse campo"
             palavra.style.borderColor = "#999999";
             palavra.style.outline = null;
         }
@@ -161,7 +167,6 @@ function validarCPF(cpfElement) {
 
     if(cpf == ''){
         cpfElement.style.borderColor = "#ff0000";
-        cpfElement.placeholder="              Preencha esse campo"
         cpfElement.style.outline = "#ff0000";
         cpfElement.focus();
         cpfElement.onkeydown = function keydown_nome() {
@@ -186,7 +191,6 @@ function validarCPF(cpfElement) {
 
             cpfElement.style.borderColor = "#ff0000";
             cpfElement.style.outline = "#ff0000";
-            cpfElement.placeholder="              Preencha esse campo"
             cpfElement.focus();
             cpfElement.onkeydown = function keydown_nome() {
                 cpfElement.style.borderColor = "#999999";
@@ -207,7 +211,6 @@ function validarCPF(cpfElement) {
 
             cpfElement.style.borderColor = "#ff0000";
             cpfElement.style.outline = "#ff0000";
-            cpfElement.placeholder="              Preencha esse campo"
             cpfElement.focus();
             cpfElement.onkeydown = function keydown_nome() {
                 cpfElement.style.borderColor = "#999999";
@@ -228,7 +231,6 @@ function validarCPF(cpfElement) {
     if (rev != parseInt(cpf.charAt(10))){
         cpfElement.style.borderColor = "#ff0000";
         cpfElement.style.outline = "#ff0000";
-        cpfElement.placeholder="              Preencha esse campo"
         cpfElement.focus();
          cpfElement.onkeydown = function keydown_nome() {
             cpfElement.style.borderColor = "#999999";

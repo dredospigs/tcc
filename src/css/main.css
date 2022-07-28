@@ -47,6 +47,8 @@ body{
     font-family: 'Impact, fantasy';
     font-weight: bold;
     padding: 2%;
+    overflow: hidden;
+    text-overflow: ellipsis;
     display: block;
     font-size: xx-large;  
 }
@@ -85,4 +87,89 @@ body{
     margin-top: -10px;
     padding: 2%;
     font-size: medium;
+}
+.sObra{
+    width: 70%;
+    height: auto;
+    background-color: #e0e8e1;
+    border-radius: 3px;
+    padding: 1rem;
+    text-align: center;
+    color: #000;
+    display: none;
+    position: absolute; 
+    left: 50%;
+    top: 75%;
+    transform: translate(-50%,-50%);
+    font-size: medium;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+.sObra .tr{
+    position: relative;
+    width: 0; 
+    height: 0; 
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 8%;
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    border-top: 25px solid #8a0899;
+}
+
+.invisible{
+    width: 100%;
+    height: 100px;
+    opacity: 0;
+    margin: 5px;
+}
+.tbl{
+    background-color: #60d16b;
+    border-radius: 5px;
+    border: #60d16b;
+    color: #fff;
+    padding: 2px 4px 2px 4px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    margin-left: 33%;
+}
+.ahoy{
+    margin-left: 3px;
+    margin-right: 3px;
+    font-size: large;
+    font-family: "Times New Roman", Helvetica, sans-serif;
+}
+.lds-ring {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+.lds-ring div {
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border: 8px solid #fff;
+    border-radius: 50%;
+    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    border-color: #fff transparent transparent transparent;
+}
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.lds-ring div:nth-child(2) {
+    animation-delay: -0.3s;
+}
+.lds-ring div:nth-child(3) {
+    animation-delay: -0.15s;
+}
+@keyframes lds-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
