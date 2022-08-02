@@ -22,14 +22,12 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
-
+    <script src="https://kit.fontawesome.com/141bc0b016.js" crossorigin="anonymous"></script>    
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/balloon-css/balloon.min.css">
     <script type="module" src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
     <script type="module" src="https://www.gstatic.com/firebasejs/8.9.1/firebase-database.js"></script>
     <script type="module" src="https://www.gstatic.com/firebasejs/8.9.1/firebase-auth.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/balloon-css/balloon.min.css">
     <script type="module">
         var firebaseConfig = {
             apiKey: "AIzaSyCL-_CJhMMfImzJa0Y4quouMxzc3VMwl-E",
@@ -44,16 +42,21 @@
         firebase.initializeApp(firebaseConfig);
         var database = firebase.database();
     </script>
+</head>
+<body>
 
     <div class="sObra" id="semObra">
         Parece que você não tem nenhum obra cadastrada! Clique aqui para adicionar sua primeira!
         <div class="tr"></div>
     </div>
+
     <div class="login-box" id="itens" style="display: flex; justify-content: center;">
         <div style="margin: 0 auto;" id="loading" class="lds-ring"><div></div><div></div><div></div><div></div></div>
     </div> 
+
     <div id="obras"></div>
     <div class="invisible"></div>
+    
     <!-- Modal -->
     <div class="modal fade" id="chartModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -73,6 +76,7 @@
             </div>
         </div>
     </div>
+    
     <div class="oc">
         <img class="img" id="menu" style="left: 8%" onclick="scrollUp()" src="./src/img/selectedHome.png">
         <img class="img" id="add" style="left: 42%" src="./src/img/add.png">
@@ -197,12 +201,11 @@
             var btnSave, preco, checkboxAble
             if(kindOfUser === 'e'){
                 preco = `<div class="precoObra">Preço: ${valorTT}</div>`
-                btnSave = `<table class="tbl" onclick="saveUpdates(${data.cdg})">
-                                <tr>
-                                    <td><img width="25" style="margin-left: 5px; margin-top: 5px; margin-bottom: 5px" height="25" src="./src/img/save.png"></td>
-                                    <td><span style="margin-left: 5px; margin-top: 5px; margin-bottom: 5px; margin-right: 5px" class="ahoy">Salvar</span></td>
-                                </tr>
-                            </table> ` 
+                btnSave = `<div class="divButton" onclick="saveUpdates(${data.cdg})">
+                                <i class="fa-solid fa-download"></i>
+                                Salvar 
+                            </div>
+                            ` 
                 checkboxAble = ''
             }
             else if(kindOfUser === 'f'){

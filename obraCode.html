@@ -5,12 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Codigo</title>
-</head>
-<body>    
     <link rel="stylesheet" href="./src/css/app.css">
     <link rel="stylesheet" href="./src/css/inputAnimation.css">
-    <link rel="stylesheet" href="./src/css/buttonSalesforce.css">
     <link rel="stylesheet" href="./src/css/navBar.css">
+    <style>
+        .divButton{
+            margin-top: 10%;
+            padding: 10px 0px 10px 0px;
+            border-radius: 4px;
+            background-color: #191d91;
+            color: #fff;
+        }
+    </style>
     
     <script type="module" src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
     <script type="module" src="https://www.gstatic.com/firebasejs/8.9.1/firebase-database.js"></script>
@@ -19,6 +25,9 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
     <script type="module" src="./src/scripts/firebaseConfig.js"></script>
+    <script src="https://kit.fontawesome.com/141bc0b016.js" crossorigin="anonymous"></script>    
+</head>
+<body>    
 
     <div class="oc">
         <img class="img" id="menuO" style="left: 8%" src="./src/img/home.png">
@@ -32,8 +41,9 @@
             <input type="text" id="cdg" required=""/>
             <label for="cdg">Código:</label>
         </div> 
-        <div>
-            <button class="btnR" id="btnAdd" type="button" onclick="add()">Adicionar</button>
+        <div class="divButton" id="btnAdd" onclick="add()">
+            <i class="fa-solid fa-plus"></i>
+            Adicionar 
         </div>
     </div>
 
@@ -47,7 +57,10 @@
             var obrasBanco = firebase.database().ref('Obras/' + newObra + '/');
             var snapshot = await obrasBanco.once('value')
 
-            if(snapshot.exists()){       
+            if(newObra === ''){
+                swal('Por favor, digite um número válido!')
+            }
+            else if(snapshot.exists()){       
                 var updates = {}   
                 if(userData.class === 'c'){
                     updates['/Cadastros/Clientes/' + userData.CPF + '/obras/'] =  userData.obras + newObra + '|';                    

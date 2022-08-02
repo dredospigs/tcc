@@ -74,7 +74,10 @@
         }
         body{
             background-image: linear-gradient(90deg, #1a144a 4%, #190e0c 100%);
-        }        
+        } 
+        .pno{
+            pointer-events:none;
+        }       
     </style>
     
     <script type="module" src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
@@ -144,20 +147,28 @@
                     <div class="user-box">
                         <input type="text" id="telefone" required=""/>
                         <label for="tel">Telefone:</label>
-                    </div>   
-                    <div>
-                        <button class="btnR" id="btnUpdate" type="button" onclick="ableToUpdate()">Editar</button>
+                    </div>  
+
+                    <div class="divButton" id="btnUpdate" style="background-color: #5d257a; margin-top: 5%" onclick="ableToUpdate()">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                        Editar
                     </div>
-                    <div>
-                        <button class="btnR" id="btnSave" type="button" style="background-color: #60d16b;" hidden="hidden" onclick="save()">Salvar </button>
+                    <div class="divButton" id="btnCancel" hidden="hidden" style="margin-top: 5%" onclick="ableToUpdate()">
+                        <i class="fa-solid fa-ban"></i>
+                        Cancelar
+                    </div>
+                    <div class="divButton" style="background-color: #30b045;margin-top: 5%" id="btnSave" hidden="hidden" margin-top: 5%" 
+                    onclick="save()">
+                        <i class="fa-solid fa-download"></i>
+                        Salvar
                     </div>
                     <hr style="margin-top: 1em">
                     <h2>Outras Ações</h2>
-                    <div class="divButton" onclick="logout()">
+                    <div class="divButton" id="btnLogout" onclick="logout()">
                         <i class="fa-solid fa-right-from-bracket"></i>
                         Logout
                     </div>
-                    <div class="divButton" onclick="deleteAccount()">
+                    <div class="divButton" id="btnDeleteAccount" onclick="deleteAccount()">
                         <i class="fa-solid fa-trash-can "></i>
                         Remover Conta
                     </div>
@@ -196,19 +207,26 @@
                         <input type="text" id="telefone" required=""/>
                         <label for="tel">Telefone:</label>
                     </div>   
-                    <div>
-                        <button class="btnR" id="btnUpdate" type="button" onclick="ableToUpdate()">Editar</button>
+                    <div class="divButton" id="btnUpdate" style="background-color: #5d257a; margin-top: 5%" onclick="ableToUpdate()">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                        Editar
                     </div>
-                    <div>
-                        <button class="btnR" id="btnSave" type="button" style="background-color: #60d16b;" hidden="hidden" onclick="save()">Salvar </button>
+                    <div class="divButton" id="btnCancel" hidden="hidden" style="margin-top: 5%" onclick="ableToUpdate()">
+                        <i class="fa-solid fa-ban"></i>
+                        Cancelar
+                    </div>
+                    <div class="divButton" style="background-color: #30b045;margin-top: 5%" id="btnSave" hidden="hidden" margin-top: 5%" 
+                    onclick="save()">
+                        <i class="fa-solid fa-download"></i>
+                        Salvar
                     </div>
                     <hr style="margin-top: 1em">
                     <h2>Outras Ações</h2>
-                    <div class="divButton" onclick="logout()">
+                    <div class="divButton" id="btnLogout" onclick="logout()">
                         <i class="fa-solid fa-right-from-bracket"></i>
                         Logout
                     </div>
-                    <div class="divButton" onclick="deleteAccount()">
+                    <div class="divButton" id="btnDeleteAccount" onclick="deleteAccount()">
                         <i class="fa-solid fa-trash-can "></i>
                         Remover Conta
                     </div>`
@@ -253,19 +271,26 @@
                         <input type="text" id="telefone" required=""/>
                         <label for="tel">Telefone:</label>
                     </div>   
-                    <div>
-                        <button class="btnR" id="btnUpdate" type="button" onclick="ableToUpdate()">Editar</button>
+                    <div class="divButton" id="btnUpdate" style="background-color: #5d257a; margin-top: 5%" onclick="ableToUpdate()">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                        Editar
                     </div>
-                    <div>
-                        <button class="btnR" id="btnSave" type="button" style="background-color: #60d16b;" hidden="hidden" onclick="save()">Salvar </button>
+                    <div class="divButton" id="btnCancel" hidden="hidden" style="margin-top: 5%" onclick="ableToUpdate()">
+                        <i class="fa-solid fa-ban"></i>
+                        Cancelar
+                    </div>
+                    <div class="divButton" style="background-color: #30b045;margin-top: 5%" id="btnSave" hidden="hidden" margin-top: 5%" 
+                    onclick="save()">
+                        <i class="fa-solid fa-download"></i>
+                        Salvar
                     </div>
                     <hr style="margin-top: 1em">
                     <h2>Outras Ações</h2>
-                    <div class="divButton" onclick="logout()">
+                    <div class="divButton" id="btnLogout" onclick="logout()">
                         <i class="fa-solid fa-right-from-bracket"></i>
                         Logout
                     </div>
-                    <div class="divButton" onclick="deleteAccount()">
+                    <div class="divButton" id="btnDeleteAccount" onclick="deleteAccount()">
                         <i class="fa-solid fa-trash-can "></i>
                         Remover Conta
                     </div>`
@@ -361,23 +386,34 @@
 
         function ableToUpdate(){
             let btnUpdate = document.getElementById("btnUpdate")
+            let btnCancel = document.getElementById("btnCancel")
             let btnSave= document.getElementById("btnSave");
+            let btnLogout = document.getElementById("btnLogout")
+            let btnDelete = document.getElementById("btnDeleteAccount")
             let hidden = btnSave.getAttribute("hidden");
 
             if (hidden) {
                 //atualizando
                 btnSave.removeAttribute("hidden");
-
-                btnUpdate.innerText = "Cancelar"
-                btnUpdate.style.background = "#f03a3a"               
+                btnCancel.removeAttribute("hidden");
+                btnUpdate.setAttribute("hidden", "hidden");
+                btnLogout.className = 'divButton pno'
+                btnDelete.className = 'divButton pno'
+                btnLogout.style.backgroundColor = '#800e2c'
+                btnDelete.style.backgroundColor = '#800e2c'
+           
                 toggleAble(false)
 
             } else {
                 //cancelado
                 btnSave.setAttribute("hidden", "hidden");
+                btnCancel.setAttribute("hidden", "hidden");
+                btnUpdate.removeAttribute("hidden");
+                btnLogout.className = 'divButton'
+                btnDelete.className = 'divButton'
+                btnLogout.style.backgroundColor = '#ff0043'
+                btnDelete.style.backgroundColor = '#ff0043'
 
-                btnUpdate.innerText = "Editar"
-                btnUpdate.style.background = "#5d257a"
                 toggleAble(true)
             }
         }
