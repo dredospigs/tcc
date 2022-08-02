@@ -11,10 +11,8 @@ TCC de 2022 cuja proposta é criar um aplicativo com suporte mobile e web para a
 - `Validação de campo da tela de obra` Validação dos inputs das telas de obra
 - `Verificações tela de obra`Adicionar verificadores na parte do arquivo da obra
 - `PK check` checar se o CPF ou CNPJ é primary key do projeto
-- `Accept check` confirmar com o usuario q ele quer criar a obra
 
 **Bugs**
-- `Layout obra` Bug na tela de obra onde o body do form está fora de proporção
 
 ## 🔨 Funcionalidades do projeto
 

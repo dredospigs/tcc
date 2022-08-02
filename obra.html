@@ -21,8 +21,8 @@
         }
     </style>
 
-    <form id="forms" style="z-index: -1">
-        <div class="login-box">
+    <form id="forms" style="z-index: -1; margin-top: 1%; margin-bottom: 15%; min-width: 90%;">
+        <div class="login-box" style="position: relative !important;">
             <h2> Adicionar obra</h2>
             <div class="user-box">
                 <input type="text" id="name" required=""/>
@@ -44,13 +44,17 @@
                 <h4>Data prevista:</h4>
                 <input type="text" id="mainDate" name="daterangeMain" value="" />
             </div>
-            <div>                
-                <div class="textAdd">Adicionar etapa</div>
-                <input class="buttonAdd" type="button" value="+" onClick="addInput();">
+            <div> 
+                <div class="divButton" style="margin-top: 0% !important; background-color: #078a1b !important;" onClick="addInput();">
+                    <i class="fa-solid fa-circle-plus"></i>
+                    Adicionar etapa
+                </div>               
             </div>
             <div  id="etapas"></div>     
             <div class="button">
-                <button id="btnObra" type="button" onclick="enviar()">CRIAR</button>
+                <div class="divButton" style="margin-top: 10% !important; background-color: #0a0a65 !important;" onclick="enviar()">
+                    CRIAR OBRA
+                </div> 
             </div>     
         </div> 
     </form>
@@ -67,7 +71,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://kit.fontawesome.com/141bc0b016.js" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <link rel="stylesheet" href="https://unpkg.com/balloon-css/balloon.min.css">
@@ -201,20 +206,26 @@
 
             if(firstAppear){
                 newdiv.innerHTML = `<h3 data-balloon-visible aria-label="Dê dois cliques aqui para editar o titulo!" data-balloon-pos="up" class="tooltip-purple" contenteditable='true' style="width:12em" onfocus="removeTooltip(this.id)" id=${id} onblur='nullVerify(this.id)'>Etapa ${nmrEtapa}</h3>`+
-                                `<input type='button' class='buttonRemove' value='-' onClick='removeInput(this);'><br>` + 
                                 `<div class='user-box'><input type='text' id=${id + 'desc'} name='myInputs[]' required=''><label for='desc'>Descrição:</label> </div>` +
                                 `<div class='user-box'><input type='text' id=${id + 'equipe'} name='myInputs[]' required=''><label for='equipe'>Equipe Responsável:</label> </div>` + 
                                 `<div class='user-box'><input type='text' id=${id + 'data'} name='daterange' required=''/><label for='equipe'>Tempo estimado da etapa:</label> </div>` + 
-                                `<div class='user-box'><input type='text' id=${id + 'valor'} name='myInputs[]' required=''><label for='valor'>Valor da etapa:</label> </div>`
+                                `<div class='user-box'><input type='text' id=${id + 'valor'} name='myInputs[]' required=''><label for='valor'>Valor da etapa:</label> </div>` +
+                                `<div class="divButton" style="margin-top: 0% !important" onclick="removeInput(this)">
+                                    <i class="fa-solid fa-trash-can "></i>
+                                    Remover etapa
+                                </div>` 
                 firstAppear = false
             }
             else{
                 newdiv.innerHTML = `<h3 contenteditable='true' style="width:12em" id=${id} onblur='nullVerify(this.id)'>Etapa ${nmrEtapa}</h3>`+
-                                `<input type='button' class='buttonRemove' value='-' onClick='removeInput(this);'><br>` + 
                                 `<div class='user-box'><input type='text' id=${id + 'desc'} name='myInputs[]' required=''><label for='equipe'>Descrição:</label> </div>` +
                                 `<div class='user-box'><input type='text' id=${id + 'equipe'} name='myInputs[]' required=''><label for='equipe'>Equipe Responsável:</label> </div>` + 
                                 `<div class='user-box'><input type='text' id=${id + 'data'} name='daterange' required=''/><label for='equipe'>Tempo estimado da etapa:</label> </div>` + 
-                                `<div class='user-box'><input type='text' id=${id + 'valor'} name='myInputs[]' required=''><label for='valor'>Valor da etapa:</label> </div>`
+                                `<div class='user-box'><input type='text' id=${id + 'valor'} name='myInputs[]' required=''><label for='valor'>Valor da etapa:</label> </div>` +
+                                `<div class="divButton" style="margin-top: 0% !important" onclick="removeInput(this)">
+                                    <i class="fa-solid fa-trash-can "></i>
+                                    Remover etapa
+                                </div>`
             }
 
             document.getElementById('etapas').appendChild(newdiv);
@@ -287,56 +298,65 @@
 
         async function enviar(){
             await getUser(localStorage["auth"])
-            console.log(token)
-            console.log(obrasUser)
+            Swal.fire({
+                text: "Confirmar criação da obra?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim',
+                cancelButtonText: 'Cancelar'
+            })
+            .then((result) => {
+                if(result.isConfirmed){
+                    const nome = document.getElementById('name')
+                    const end = document.getElementById('endereco')
+                    const cidade = document.getElementById('cidade')
+                    const estado = document.getElementById('estado')
 
-            const nome = document.getElementById('name')
-            const end = document.getElementById('endereco')
-            const cidade = document.getElementById('cidade')
-            const estado = document.getElementById('estado')
+                    data = document.getElementById('mainDate').value      
+                    var datas = data.split(' ')
 
-            data = document.getElementById('mainDate').value      
-            var datas = data.split(' ')
+                    minDate = datas[0]
+                    maxDate = datas[2]
 
-            minDate = datas[0]
-            maxDate = datas[2]
+                    var etapas = []
 
-            var etapas = []
-
-            for(var x = 0; x < id; x++){
-                try {
-                    etapas.push({
-                        nome: document.getElementById(`${x}`).innerText,
-                        equipe: document.getElementById(`${x + 'equipe'}`).value,
-                        data: returnData(document.getElementById(`${x + 'data'}`).value),
-                        valor: document.getElementById(`${x + 'valor'}`).value,
-                        descricao: document.getElementById(`${x + 'desc'}`).value,
-                        concluido: false,
-                    })    
-                } catch (error) {
-                    console.log(error)
-                }
+                    for(var x = 0; x < id; x++){
+                        try {
+                            etapas.push({
+                                nome: document.getElementById(`${x}`).innerText,
+                                equipe: document.getElementById(`${x + 'equipe'}`).value,
+                                data: returnData(document.getElementById(`${x + 'data'}`).value),
+                                valor: document.getElementById(`${x + 'valor'}`).value,
+                                descricao: document.getElementById(`${x + 'desc'}`).value,
+                                concluido: false,
+                            })    
+                        } catch (error) {
+                            console.log(error)
+                        }
+                        
+                    }
+                    
+                    const codigo = randomIntFromInterval(100000, 999999)
+                    const dataToInsert = {
+                        cdg: codigo,
+                        nome: nome.value,
+                        endereco: end.value,
+                        cidade: cidade.value,
+                        estado: estado.value,
+                        mainDateStart: minDate,
+                        mainDateEnd : maxDate,
+                        etapas: etapas
+                    }
                 
-            }
+                    cadastrarObra(dataToInsert, codigo) 
 
-            const codigo = randomIntFromInterval(100000, 999999)
-
-            const dataToInsert = {
-                cdg: codigo,
-                nome: nome.value,
-                endereco: end.value,
-                cidade: cidade.value,
-                estado: estado.value,
-                mainDateStart: minDate,
-                mainDateEnd : maxDate,
-                etapas: etapas
-            }
-            
-            cadastrarObra(dataToInsert, codigo)
-
-            var updates = {}
-            updates['/Cadastros/Empresas/' + token + '/obras/'] =  obrasUser + codigo + '|';
-            firebase.database().ref().update(updates);
+                    var updates = {}
+                    updates['/Cadastros/Empresas/' + token + '/obras/'] =  obrasUser + codigo + '|';
+                    firebase.database().ref().update(updates);
+                }
+            })
         }
 
         function returnData(dataToSplit){
@@ -350,9 +370,9 @@
         function cadastrarObra(data, codigo){
             firebase.database().ref('Obras/' + codigo).set(data, (error) => {
                 if (error) {
-                    swal('Houve um erro ao cadastrar: ' + error)
+                    Swal.fire('Houve um erro ao cadastrar: ' + error)
                 } else {
-                    swal("Sucesso!", 'O codigo dessa obra é: ' + codigo, "success").then(() => {document.location.reload(true);})
+                    Swal.fire("Sucesso!", 'O codigo dessa obra é: ' + codigo, "success").then(() => {document.location.reload(true);})
                 }
             })
         }

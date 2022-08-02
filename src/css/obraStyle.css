@@ -1,9 +1,9 @@
 .login-box{
     position:absolute;
-    top: 0%;
+    top: 10%;
     left: 50%;
-    min-width: 2em;
-    padding: 3em;
+    min-width: 90%;
+    padding: 2em;
     transform: translate(-50%, -0%);
     background: rgba(0, 0, 0, 1);
     box-sizing: border-box;
@@ -55,56 +55,21 @@
 }
 .login-box .box{
     margin-top: 10%;
-    margin-left: -15%;
-    margin-right: -15%;
+    min-width: 90%;
     height: auto;
     border: 1px solid;
     border-color: bisque;
     border-radius: 10px;
     padding: 1em;
     -webkit-border-radius: 10px;
-}
-.login-box .box{
-    margin-top: 10%;
-    margin-left: -15%;
-    margin-right: -15%;
-    height: auto;
-    border: 1px solid;
-    border-color: bisque;
-    border-radius: 10px;
-    padding: 1em;
-    -webkit-border-radius: 10px;
-}
-.textAdd{
-    margin-left: -60%;
-    margin-top: 10%;
-    color: aliceblue;
-}
-.buttonAdd{
-    position: absolute;
-    right: 10%;
-    margin-top: -7%;
-    border-radius: 100%;
-    border: 2px solid;
-    border-color: #041c05;
-    background-color: #b2f7ba;
-    font-size: medium;
-    color: #000;
-}
-.buttonRemove{
-    position: absolute;
-    right: 10%;
-    margin-top: -15%;
-    border-radius: 100%;
-    background-color: #f53d33;
-    border: 2px solid;
-    border-color: #590505;
-    font-size:x-large;
-    color: rgb(255, 255, 255);
-    padding-top: -1%;
-    padding-left: 3%;
-    padding-right: 3%;
 }
 .tooltip-purple {
     --balloon-color: purple;
+}
+.divButton{
+    margin-top: 10%;
+    padding: 10px 0px 10px 0px;
+    border-radius: 4px;
+    background-color: #ff0043;
+    color: #fff;
 }
