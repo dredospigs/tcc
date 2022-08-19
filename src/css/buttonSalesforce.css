@@ -1,22 +1,9 @@
-button {    
-    align-self:center;
-    display: inline-block;
-    outline: none;
-    cursor: pointer;
-    padding: 0 1em;
-    background-color: #0070d2;
-    border-radius: 0.25rem;
-    border: 1px solid #0070d2;
+.divButton{
+    margin-top: 5%;
+    padding: 20px 10px 20px 10px;
+    border-radius: 4px;
+    background-color: #1932a1;
     color: #fff;
-    font-size: small;
-    line-height: 30px;
-    font-weight: 400;
-    text-align: center;
-    margin-top: 1em;
-    margin-bottom: 2em;
-}
-button:hover {
-    background-color: #005fb2;  
-    border-color: #005fb2;
+    font-size: large;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 } 
-

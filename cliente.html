@@ -4,14 +4,26 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro Cliente</title>
-</head>
-<body>
+    <title>Cadastro Cliente</title>    
 
     <link rel="stylesheet" href="./src/css/app.css">
     <link rel="stylesheet" href="./src/css/inputAnimation.css">
     <link rel="stylesheet" href="./src/css/buttonSalesforce.css">
-   
+    <link rel="icon" href="./src/img/profile.png">
+    <script src="https://kit.fontawesome.com/141bc0b016.js" crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        html{
+            height: 110%;
+        }
+        .login-box{
+            margin-top: -25%;
+            min-width: 90%;
+            min-height: 90%;
+        }
+    </style>
+</head>
+<body>   
     <form method="post">            
         <div class="login-box">
             <h2> Cadastro do Cliente</h2>
@@ -47,8 +59,9 @@
                 <input type="text" id="estado" onchange="validaLetras(document.getElementById('estado'))" required=""/>
                 <label for="est">Estado:</label>
             </div>
-            <div class="button">
-                <button id="btn" type="button" onclick="enviar()">CADASTRAR</button>
+            <div class="divButton" id="btn" onClick="enviar()">
+                <i class="fa-regular fa-circle-check"></i>
+                CADASTRAR   
             </div>
         </div>
     </form>
@@ -61,15 +74,12 @@
     <script type="module" src="./src/scripts/firebaseConfig.js"></script>
     <script type="text/javascript" src="./src/scripts/verificadores.js"></script>
     <script type="text/javascript" src="./src/scripts/cadastrar.js"></script>
-
     <script type="text/javascript">
         $("#cpf").mask("000.000.000-00");    
         $("#telefone").mask("(00) 00000-0000"); 
         $("#cep").mask("00000-000"); 
     </script>
-
     <script type="text/javascript">
-
         async function enviar(){
             
             var nome = document.getElementById('name');
@@ -96,7 +106,11 @@
                     await cadastrarCliente(nome.value, email.value, password.value, estado.value, telefone.value, id, cep.value, cidade.value)
             }
             else{
-                alert('Houve um erro na digitação dos dados, por favor, verifique novamente!')
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Houve um erro!',
+                    text: 'Verifique as informações e tente novamente',
+                })
             }       
         }
 
@@ -124,11 +138,14 @@
                 .catch((error) => {
                     var errorCode = error.code;
                     var errorMessage = error.message;
-                    console.log(errorCode + errorMessage)
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Houve um erro!',
+                        text: 'Verifique as informações e tente novamente',
+                    })
                 });
             });
         }
-        
     </script>
        
 </body>

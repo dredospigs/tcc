@@ -5,12 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu</title>
-</head>
-<body>
     <link rel="stylesheet" href="./src/css/app.css">
     <link rel="stylesheet" href="./src/css/inputAnimation.css">
     <link rel="stylesheet" href="./src/css/buttonSalesforce.css">
-   
+    <script src="https://kit.fontawesome.com/141bc0b016.js" crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="icon" href="./src/img/home.png">
+    <style>
+        html{
+            height: 100% !important;
+        }
+        .login-box{
+            margin-top: -20%;
+            min-width: 90%;
+            min-height: 80%;
+        }
+    </style>
+</head>
+<body>   
     <form>
         <div class="login-box">
             <h2> BEM VINDO!</h2>
@@ -22,19 +34,25 @@
                 <input type="password" id="senha" required=""/>
                 <label for="senha">Senha:</label>
             </div>
-            <div class="btn1">
-            <button id="btnLogar" type="button" onclick="logar()">LOGAR</button>
-            </div>     
+            <div class="divButton" id="btnLogar" onClick="logar()">
+                LOGAR   
+            </div> 
+
             <h3> <u>ou</u> <h3>
-            <div class="btn2">
-                <button id="btnCliente" type="button" onclick="cliente()">CADASTRAR COMO CLIENTE</button>
-            </div> 
-            <div class="btn2">
-                <button id="btnEmpresa" type="button" onclick="empresa()">CADASTRAR COMO EMPRESA</button>
-            </div> 
-            <div class="btn2">
-                <button id="btnFuncionario" type="button" onclick="funcionario()">CADASTRAR COMO FUNCIONÁRIO</button>
-            </div> 
+            <h2> Cadastre-se</h2>
+
+            <div class="divButton" id="btnCliente" onClick="cliente()">
+                <i class="fa-solid fa-user"></i>
+                COMO CLIENTE   
+            </div>
+            <div class="divButton" id="btnEmpresa" onClick="empresa()">
+                <i class="fa-solid fa-building"></i>
+                COMO EMPRESA   
+            </div>
+            <div class="divButton" id="btnFuncionario" onClick="funcionario()">
+                <i class="fa-solid fa-helmet-safety"></i>
+                COMO FUNCIONÁRIO   
+            </div>             
         </div>       
     </form>
     
@@ -71,7 +89,11 @@
                     var errorCode = error.code;
                     var errorMessage = error.message;
 
-                    alert(errorCode + " " + errorMessage)
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Houve um erro!',
+                        text: 'Verifique as informações e tente novamente',
+                    })
                 })
 
         }

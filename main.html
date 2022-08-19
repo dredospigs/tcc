@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="./src/css/main.css">
     <link rel="stylesheet" href="./src/css/navBar.css">
     <link rel="stylesheet" href="./src/css/inputAnimation.css">
+    <link rel="icon" href="./src/img/home.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
@@ -84,13 +85,7 @@
     </div>
 
     <script type="module">
-        var myChart
-        var atraso;
-        var emdia;
-        var concluida;
-        var token;
-        var obrasUser;
-        var kindOfUser;
+        var myChart, atraso, emdia, concluida, token, obrasUser, kindOfUser;
 
         window.onload = async function show(){
             await getUser(localStorage["auth"]) 
@@ -118,7 +113,7 @@
                 document.getElementById('semObra').style.display = 'block'
             }
             accordion()
-        }        
+        }     
         
         function precoTT(etapas){
             let valorTT = 0
@@ -358,6 +353,23 @@
             myChart = new Chart(document.getElementById('myChart'), config);
         }
 
+        function accordion() {
+            var acc = document.getElementsByClassName("accordion");
+            var i;
+            
+            for (i = 0; i < acc.length; i++) {
+                acc[i].addEventListener("click", function() {
+                    this.classList.toggle("active");
+                    var panel = this.nextElementSibling;
+                    if (panel.style.maxHeight) {
+                        panel.style.maxHeight = null;
+                    } else {
+                        panel.style.maxHeight = panel.scrollHeight + "px";
+                    }
+                });
+            }
+        }
+
         document.getElementById('add').addEventListener("click",() => {
             if(kindOfUser === 'e'){
                 window.location.href = "obra.html"
@@ -378,25 +390,5 @@
         }
         
    </script>
-
-    <!--accordion script-->
-    <script>
-        function accordion() {
-            var acc = document.getElementsByClassName("accordion");
-            var i;
-            
-            for (i = 0; i < acc.length; i++) {
-                acc[i].addEventListener("click", function() {
-                    this.classList.toggle("active");
-                    var panel = this.nextElementSibling;
-                    if (panel.style.maxHeight) {
-                        panel.style.maxHeight = null;
-                    } else {
-                        panel.style.maxHeight = panel.scrollHeight + "px";
-                    }
-                });
-            }
-        }
-    </script>
 </body>
 </html>
