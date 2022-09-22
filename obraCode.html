@@ -11,9 +11,10 @@
     <link rel="icon" href="./src/img/add.png">
     <style>
         .divButton{
-            margin-top: 10%;
+            margin-top: 3%;
             padding: 10px 0px 10px 0px;
             border-radius: 4px;
+            font-size: x-large;
             background-color: #191d91;
             color: #fff;
         }
@@ -30,7 +31,7 @@
     <script type="module" src="https://www.gstatic.com/firebasejs/8.9.1/firebase-database.js"></script>
     <script type="module" src="https://www.gstatic.com/firebasejs/8.9.1/firebase-auth.js"></script>    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
     <script type="module" src="./src/scripts/firebaseConfig.js"></script>
     <script src="https://kit.fontawesome.com/141bc0b016.js" crossorigin="anonymous"></script>    
@@ -65,28 +66,58 @@
             var obrasBanco = firebase.database().ref('Obras/' + newObra + '/');
             var snapshot = await obrasBanco.once('value')
 
+            const obras = userData.obras.split("|")
+
             if(newObra === ''){
-                swal('Por favor, digite um número válido!')
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro!',
+                    text: 'Por favor, digite um número válido!'
+                })
             }
             else if(snapshot.exists()){       
-                var updates = {}   
-                if(userData.class === 'c'){
-                    updates['/Cadastros/Clientes/' + userData.CPF + '/obras/'] =  userData.obras + newObra + '|';                    
+                if(obras.indexOf(newObra) !== -1){
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro!',
+                        text: 'Essa obra já está cadastrada!'
+                    })
                 }
-                else if(userData.class === 'f'){
-                    updates['/Cadastros/Funcionarios/' + userData.CPF + '/obras/'] =  userData.obras + newObra + '|';
-                }
+                else{
+                    var updates = {}   
+                    if(userData.class === 'c'){
+                        updates['/Cadastros/Clientes/' + userData.CPF + '/obras/'] =  userData.obras + newObra + '|';                    
+                    }
+                    else if(userData.class === 'f'){
+                        updates['/Cadastros/Funcionarios/' + userData.CPF + '/obras/'] =  userData.obras + newObra + '|';
+                    }
 
-                firebase.database().ref().update(updates)
-                .then(() => {
-                    swal('A obra foi adicionada com sucesso!')
-                })
-                .catch((error) => {
-                    swal('Houve um erro! ' + error)
-                });
+                    firebase.database().ref().update(updates)
+                    .then(() => {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Sucesso!',
+                            text: 'A obra foi adicionada com sucesso!'
+                        })
+                        .then(() => {
+                            window.location.href = "main.html"
+                        })
+                    })
+                    .catch((error) => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Erro!',
+                            text: 'Houve um erro! ' + error
+                        })
+                    });
+                }                
             }
             else{
-                swal('Essa obra não existe! Verifique a digitação ou entre em contato com a empresa!')
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro!',
+                    text: 'Essa obra não existe! Verifique a digitação ou entre em contato com a empresa!'
+                })
             }
         }
 

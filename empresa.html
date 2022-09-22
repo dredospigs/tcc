@@ -13,10 +13,9 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         html{
-            height: 100%;
+            height: 110%;
         }
         .login-box{
-            margin-top: -25%;
             min-width: 90%;
             min-height: 80%;
         }
@@ -99,33 +98,45 @@
         }    
         
         async function cadastrarEmpresa(nomePropietario, email, password, nomeEmpresa, telefone, cnpj) {
-            firebase.database().ref('Cadastros/Empresas/' + cnpj).set({
-                "NomeProprietario": nomePropietario,
-                "Email": email,
-                "Senha": password,
-                "NomeEmpresa": nomeEmpresa,
-                "Telefone": telefone,
-                "CNPJ": cnpj,
-                "obras": '',
-                "class": 'e'
+            var empresass = firebase.database().ref('Cadastros/Empresas/' + cnpj + '/');
+            var snapshot = await empresass.once('value')
 
-            }).then(() => {
-                firebase.auth().createUserWithEmailAndPassword(email, password)
-                .then((userCredential) => {
-                    var user = userCredential.user;
-                    localStorage["auth"] = email
-                    window.location.href = "main.html"
+            if(snapshot.exists()){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Houve um erro!',
+                    text: 'Esse cadastro já existe! Tente fazer o login!',
                 })
-                .catch((error) => {
-                    var errorCode = error.code;
-                    var errorMessage = error.message;
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Houve um erro!',
-                        text: 'Verifique as informações e tente novamente',
+            }
+            else{
+                firebase.database().ref('Cadastros/Empresas/' + cnpj).set({
+                    "NomeProprietario": nomePropietario,
+                    "Email": email,
+                    "Senha": password,
+                    "NomeEmpresa": nomeEmpresa,
+                    "Telefone": telefone,
+                    "CNPJ": cnpj,
+                    "obras": '',
+                    "class": 'e'
+
+                }).then(() => {
+                    firebase.auth().createUserWithEmailAndPassword(email, password)
+                    .then((userCredential) => {
+                        var user = userCredential.user;
+                        localStorage["auth"] = email
+                        window.location.href = "main.html"
                     })
+                    .catch((error) => {
+                        var errorCode = error.code;
+                        var errorMessage = error.message;
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Houve um erro!',
+                            text: 'Verifique as informações e tente novamente',
+                        })
+                    });
                 });
-            });
+            }
         }
         
     </script>

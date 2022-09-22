@@ -88,31 +88,36 @@
         var myChart, atraso, emdia, concluida, token, obrasUser, kindOfUser;
 
         window.onload = async function show(){
-            await getUser(localStorage["auth"]) 
+            if(localStorage['auth'] != ''){
+                await getUser(localStorage["auth"]) 
 
-            const obras = obrasUser.split("|")
+                const obras = obrasUser.split("|")
 
-            var obrasBanco = firebase.database().ref('Obras/');
-            var snapshot = await obrasBanco.once('value')
+                var obrasBanco = firebase.database().ref('Obras/');
+                var snapshot = await obrasBanco.once('value')
 
-            if(snapshot.exists()){
-                snapshot.forEach(function(item) {
-                    var data = item.val();
-                    var cdg = data.cdg.toString()
+                if(snapshot.exists()){
+                    snapshot.forEach(function(item) {
+                        var data = item.val();
+                        var cdg = data.cdg.toString()
 
-                    for(var x = 0; x < obras.length; x++){
-                        if(cdg === obras[x]){
-                            genAccordion(data)  
-                        }
-                    }                 
-                })
+                        for(var x = 0; x < obras.length; x++){
+                            if(cdg === obras[x]){
+                                genAccordion(data)  
+                            }
+                        }                 
+                    })
+                }
+
+                document.getElementById('itens').remove()
+                if(obrasUser === ''){
+                    document.getElementById('semObra').style.display = 'block'
+                }
+                accordion()
             }
-            
-            document.getElementById('itens').remove()
-            if(obrasUser === ''){
-                document.getElementById('semObra').style.display = 'block'
-            }
-            accordion()
+            else{
+                window.location.href = "menu.html"
+            }            
         }     
         
         function precoTT(etapas){

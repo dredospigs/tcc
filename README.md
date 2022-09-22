@@ -7,12 +7,9 @@ TCC de 2022 cuja proposta é criar um aplicativo com suporte mobile e web para a
 - `Webview` Arrumar a parte do webview para que haja o app
 
 **Melhorias**
-- `Erro da tela sem usuario logado` caso nao tenha nenhum usuario logado, mostrar mesnsagem de erro
 - `Verificações tela de obra`Adicionar verificadores na parte do arquivo da obra
-- `PK check` checar se o CPF ou CNPJ é primary key do projeto
 
 **Bugs**
-- `obras repetidas` pro cliente e funcionario, caso fique spamando a msm obra
 
 ## 🔨 Funcionalidades do projeto
 

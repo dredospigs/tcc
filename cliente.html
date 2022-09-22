@@ -14,10 +14,9 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         html{
-            height: 110%;
+            height: 120%;
         }
         .login-box{
-            margin-top: -25%;
             min-width: 90%;
             min-height: 90%;
         }
@@ -115,36 +114,47 @@
         }
 
         async function cadastrarCliente(nome, email, password, estado, telefone, cpf, cep, cidade){
+            var cliente = firebase.database().ref('Cadastros/Clientes/' + cpf + '/');
+            var snapshot = await cliente.once('value')
 
-            firebase.database().ref('Cadastros/Clientes/' + cpf).set({
-                "Nome" : nome,
-                "Email" : email,
-                "Senha" : password,
-                "Estado" : estado,
-                "Telefone" : telefone,
-                "CPF" : cpf,
-                "CEP" : cep,
-                "Cidade" : cidade,
-                "obras" : '',
-                "class": 'c'
-
-            }).then(() => {
-                firebase.auth().createUserWithEmailAndPassword(email, password)
-                .then((userCredential) => {
-                    var user = userCredential.user;
-                    localStorage["auth"] = email
-                    window.location.href = "main.html"
+            if(snapshot.exists()){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Houve um erro!',
+                    text: 'Esse cadastro já existe! Tente fazer o login!',
                 })
-                .catch((error) => {
-                    var errorCode = error.code;
-                    var errorMessage = error.message;
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Houve um erro!',
-                        text: 'Verifique as informações e tente novamente',
+            }
+            else{
+                firebase.database().ref('Cadastros/Clientes/' + cpf).set({
+                    "Nome" : nome,
+                    "Email" : email,
+                    "Senha" : password,
+                    "Estado" : estado,
+                    "Telefone" : telefone,
+                    "CPF" : cpf,
+                    "CEP" : cep,
+                    "Cidade" : cidade,
+                    "obras" : '',
+                    "class": 'c'
+
+                }).then(() => {
+                    firebase.auth().createUserWithEmailAndPassword(email, password)
+                    .then((userCredential) => {
+                        var user = userCredential.user;
+                        localStorage["auth"] = email
+                        window.location.href = "main.html"
                     })
+                    .catch((error) => {
+                        var errorCode = error.code;
+                        var errorMessage = error.message;
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Houve um erro!',
+                            text: 'Verifique as informações e tente novamente',
+                        })
+                    });
                 });
-            });
+            }
         }
     </script>
        
