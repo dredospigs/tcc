@@ -26,24 +26,24 @@
         <div class="login-box" style="position: relative !important;">
             <h2> Adicionar obra</h2>
             <div class="user-box">
-                <input type="text" id="name" required=""/>
+                <input type="text" id="name" required="" autocomplete="off" onchange="checkNull(document.getElementById('name'))"/>
                 <label for="name">Título da obra:</label>
             </div>
             <div class="user-box">
-                <input type="text" id="endereco" required=""/>
+                <input type="text" id="endereco" required="" autocomplete="off" onchange="checkNull(document.getElementById('endereco'))"/>
                 <label for="local">Endereço:</label>
             </div>
             <div class="user-box">
-                <input type="text" id="cidade" required=""/>
+                <input type="text" id="cidade" required="" autocomplete="off" onchange="checkNull(document.getElementById('cidade'))"/>
                 <label for="cdd">Cidade:</label>
             </div>
             <div class="user-box">
-                <input type="text" id="estado" required=""/>
+                <input type="text" id="estado" required="" autocomplete="off" onchange="checkNull(document.getElementById('estado'))"/>
                 <label for="est">Estado:</label>
             </div>   
             <div class="user-box">
                 <h4>Data prevista:</h4>
-                <input type="text" id="mainDate" name="daterangeMain" value="" />
+                <input type="text" id="mainDate" name="daterangeMain" value=""/>
             </div>
             <div> 
                 <div class="divButton" style="margin-top: 0% !important; background-color: #078a1b !important;" onClick="addInput();">
@@ -194,6 +194,21 @@
         var minDate 
         var token
         var obrasUser
+
+        function checkNull(dado){
+            if(dado.value === ""){
+                dado.style.borderColor = "#ff0000";
+                dado.style.outline = "#ff0000";
+                dado.focus();
+                dado.onkeydown = function keydown_nome() {
+                    dado.placeholder=""
+                    dado.style.borderColor = "#999999";
+                    dado.style.outline = null;
+                }
+                return false
+            }
+            return true 
+        }
 
         function addInput(){  
             data = document.getElementById('mainDate').value      

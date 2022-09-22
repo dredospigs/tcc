@@ -26,27 +26,27 @@
         <div class="login-box">
             <h2> Cadastro da Empresa</h2>
             <div class="user-box">                
-                <input type="text" id="nome_da_empresa" onchange="validaNulo(document.getElementById('nome_da_empresa'))" required=""/>
+                <input type="text" id="nome_da_empresa" autocomplete="off" onchange="validaNulo(document.getElementById('nome_da_empresa'))" required=""/>
                 <label for="nde">Nome da Empresa:</label>
             </div>
             <div class="user-box">
-                <input type="text" id="name" required onchange="validaLetras(document.getElementById('name'))" required=""/>
+                <input type="text" id="name" autocomplete="off" required onchange="validaLetras(document.getElementById('name'))" required=""/>
                 <label for="name">Nome do Proprietário:</label>
             </div>
             <div class="user-box">
-                <input type="email" id="mail" onchange="validaEmail(document.getElementById('mail'))" required=""/>
+                <input type="email" id="mail" autocomplete="off" onchange="validaEmail(document.getElementById('mail'))" required=""/>
                 <label for="mail">E-mail:</label>
             </div>
             <div class="user-box">
-                <input type="password" id="senha" onchange="validaSenha(document.getElementById('senha'))" required=""/>
+                <input type="password" id="senha" autocomplete="off" onchange="validaSenha(document.getElementById('senha'))" required=""/>
                 <label for="senha">Senha:</label>
             </div>
             <div class="user-box">
-                <input type="text" id="cnpj" onchange="validaCNPJ(document.getElementById('cnpj'))" required=""/>
+                <input type="text" id="cnpj" autocomplete="off" onchange="validaCNPJ(document.getElementById('cnpj'))" required=""/>
                 <label for="cnpj">CNPJ:</label>
             </div>
             <div class="user-box">
-                <input type="text" id="telefone" onchange="validaNulo(document.getElementById('telefone'))" required=""/>
+                <input type="text" id="telefone" autocomplete="off" onchange="validaNulo(document.getElementById('telefone'))" required=""/>
                 <label for="tel">Telefone:</label>
             </div>
             <div class="divButton" id="btn" onClick="enviar()">
