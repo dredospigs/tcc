@@ -17,6 +17,13 @@
         body {
             background-image: linear-gradient(90deg, #110e6b 0%, #3e024a 100%);
         }
+        button{
+            font-size: small;
+            margin-top: 2%;
+            border: none;
+            background-color: #053582;
+            border-radius: 3px;
+        }
     </style>
     <link rel="icon" href="./src/img/add.png">
 </head>
@@ -222,10 +229,10 @@
 
             if(firstAppear){
                 newdiv.innerHTML = `<h3 data-balloon-visible aria-label="Dê dois cliques aqui para editar o titulo!" data-balloon-pos="up" class="tooltip-purple" contenteditable='true' style="width:12em" onfocus="removeTooltip(this.id)" id=${id} onblur='nullVerify(this.id)'>Etapa ${nmrEtapa}</h3>`+
-                                `<div class='user-box'><input type='text' id=${id + 'desc'} name='myInputs[]' required=''><label for='desc'>Descrição:</label> </div>` +
-                                `<div class='user-box'><input type='text' id=${id + 'equipe'} name='myInputs[]' required=''><label for='equipe'>Equipe Responsável:</label> </div>` + 
+                                `<div class='user-box'><input type='text' id=${id + 'desc'} autocomplete="off" onchange="checkNull(document.getElementById('${id + 'desc'}'))" name='myInputs[]' required=''><label for='desc'>Descrição:</label> </div>` +
+                                `<div class='user-box'><input type='text' id=${id + 'equipe'} autocomplete="off" onchange="checkNull(document.getElementById('${id + 'equipe'}'))" name='myInputs[]' required=''><label for='equipe'>Equipe Responsável:</label> </div>` + 
                                 `<div class='user-box'><input type='text' id=${id + 'data'} name='daterange' required=''/><label for='equipe'>Tempo estimado da etapa:</label> </div>` + 
-                                `<div class='user-box'><input type='text' id=${id + 'valor'} name='myInputs[]' required=''><label for='valor'>Valor da etapa:</label> </div>` +
+                                `<div class='user-box'><input type='number' id=${id + 'valor'} autocomplete="off" onchange="checkNull(document.getElementById('${id + 'valor'}'))" name='myInputs[]' required=''><label for='valor'>Valor da etapa:</label> </div>` +
                                 `<div class="divButton" style="margin-top: 0% !important" onclick="removeInput(this)">
                                     <i class="fa-solid fa-trash-can "></i>
                                     Remover etapa
@@ -234,10 +241,10 @@
             }
             else{
                 newdiv.innerHTML = `<h3 contenteditable='true' style="width:12em" id=${id} onblur='nullVerify(this.id)'>Etapa ${nmrEtapa}</h3>`+
-                                `<div class='user-box'><input type='text' id=${id + 'desc'} name='myInputs[]' required=''><label for='equipe'>Descrição:</label> </div>` +
-                                `<div class='user-box'><input type='text' id=${id + 'equipe'} name='myInputs[]' required=''><label for='equipe'>Equipe Responsável:</label> </div>` + 
+                                `<div class='user-box'><input type='text' id=${id + 'desc'} autocomplete="off" name='myInputs[]' onchange="checkNull(document.getElementById('${id + 'desc'}'))" required=''><label for='equipe'>Descrição:</label> </div>` +
+                                `<div class='user-box'><input type='text' id=${id + 'equipe'} autocomplete="off" onchange="checkNull(document.getElementById('${id + 'equipe'}'))" name='myInputs[]' required=''><label for='equipe'>Equipe Responsável:</label> </div>` + 
                                 `<div class='user-box'><input type='text' id=${id + 'data'} name='daterange' required=''/><label for='equipe'>Tempo estimado da etapa:</label> </div>` + 
-                                `<div class='user-box'><input type='text' id=${id + 'valor'} name='myInputs[]' required=''><label for='valor'>Valor da etapa:</label> </div>` +
+                                `<div class='user-box'><input type='number' id=${id + 'valor'} autocomplete="off" onchange="checkNull(document.getElementById('${id + 'valor'}'))" name='myInputs[]' required=''><label for='valor'>Valor da etapa:</label> </div>` +
                                 `<div class="divButton" style="margin-top: 0% !important" onclick="removeInput(this)">
                                     <i class="fa-solid fa-trash-can "></i>
                                     Remover etapa
@@ -248,6 +255,7 @@
             $(function() {            
                 $('input[name="daterange"]').daterangepicker({
                     opens: 'center',
+                    "drops": "up",
                     "minDate": minDate,
                     "maxDate": maxDate,
                     "locale": {
@@ -330,47 +338,78 @@
                     const cidade = document.getElementById('cidade')
                     const estado = document.getElementById('estado')
 
-                    data = document.getElementById('mainDate').value      
-                    var datas = data.split(' ')
+                    if(checkNull(nome) && checkNull(end) && checkNull(cidade) && checkNull(estado)){
+                        let qtdF = 0;
+                        for(var x = 0; x < id; x++){
+                            try {
+                                if(!checkNull(document.getElementById(`${x + 'desc'}`)) 
+                                  || !checkNull(document.getElementById(`${x + 'equipe'}`)) 
+                                  || !checkNull(document.getElementById(`${x + 'valor'}`)))
+                                {
+                                    qtdF++;                                    
+                                }
+                            } catch (error) {}
+                        }
 
-                    minDate = datas[0]
-                    maxDate = datas[2]
+                        if(qtdF === 0){
+                            data = document.getElementById('mainDate').value      
+                            var datas = data.split(' ')
 
-                    var etapas = []
+                            minDate = datas[0]
+                            maxDate = datas[2]
 
-                    for(var x = 0; x < id; x++){
-                        try {
-                            etapas.push({
-                                nome: document.getElementById(`${x}`).innerText,
-                                equipe: document.getElementById(`${x + 'equipe'}`).value,
-                                data: returnData(document.getElementById(`${x + 'data'}`).value),
-                                valor: document.getElementById(`${x + 'valor'}`).value,
-                                descricao: document.getElementById(`${x + 'desc'}`).value,
-                                concluido: false,
-                            })    
-                        } catch (error) {
-                            console.log(error)
+                            var etapas = []
+
+                            for(var x = 0; x < id; x++){
+                                try {
+                                    etapas.push({
+                                        nome: document.getElementById(`${x}`).innerText,
+                                        equipe: document.getElementById(`${x + 'equipe'}`).value,
+                                        data: returnData(document.getElementById(`${x + 'data'}`).value),
+                                        valor: document.getElementById(`${x + 'valor'}`).value,
+                                        descricao: document.getElementById(`${x + 'desc'}`).value,
+                                        concluido: false,
+                                    })    
+                                } catch (error) {
+                                    console.log(error)
+                                }
+                                
+                            }
+                            
+                            const codigo = randomIntFromInterval(100000, 999999)
+                            const dataToInsert = {
+                                cdg: codigo,
+                                nome: nome.value,
+                                endereco: end.value,
+                                cidade: cidade.value,
+                                estado: estado.value,
+                                mainDateStart: minDate,
+                                mainDateEnd : maxDate,
+                                etapas: etapas
+                            }
+                        
+                            cadastrarObra(dataToInsert, codigo) 
+
+                            var updates = {}
+                            updates['/Cadastros/Empresas/' + token + '/obras/'] =  obrasUser + codigo + '|';
+                            firebase.database().ref().update(updates);
+                        }
+                        else{
+                            Swal.fire({
+                            title: "Houve um erro",
+                            text: "Favor verifique os campos das etapas e tente novamente",
+                            icon: 'error'
+                        })
                         }
                         
-                    }
-                    
-                    const codigo = randomIntFromInterval(100000, 999999)
-                    const dataToInsert = {
-                        cdg: codigo,
-                        nome: nome.value,
-                        endereco: end.value,
-                        cidade: cidade.value,
-                        estado: estado.value,
-                        mainDateStart: minDate,
-                        mainDateEnd : maxDate,
-                        etapas: etapas
-                    }
-                
-                    cadastrarObra(dataToInsert, codigo) 
 
-                    var updates = {}
-                    updates['/Cadastros/Empresas/' + token + '/obras/'] =  obrasUser + codigo + '|';
-                    firebase.database().ref().update(updates);
+                    }else{
+                        Swal.fire({
+                            title: "Houve um erro",
+                            text: "Favor verifique os campos e tente novamente",
+                            icon: 'error'
+                        })
+                    }                    
                 }
             })
         }

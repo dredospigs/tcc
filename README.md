@@ -7,7 +7,6 @@ TCC de 2022 cuja proposta é criar um aplicativo com suporte mobile e web para a
 - `Webview` Arrumar a parte do webview para que haja o app
 
 **Melhorias**
-- `Verificações tela de obra`Adicionar verificadores na parte do arquivo da obra
 
 **Bugs**
 
