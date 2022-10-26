@@ -22,6 +22,7 @@
             margin-top: 2%;
             border: none;
             background-color: #053582;
+            color: aliceblue;
             border-radius: 3px;
         }
     </style>
@@ -433,7 +434,32 @@
         }
     
         function randomIntFromInterval(min, max) {
-            return Math.floor(Math.random() * (max - min + 1) + min)
+            var r = Math.floor(Math.random() * (max - min + 1) + min)
+            let ifNumber = checkIfNumberExists(r)
+            if(ifNumber){
+                return r
+            }
+            else{
+                randomIntFromInterval(100000, 999999)
+            }
+        }
+
+        async function checkIfNumberExists(number){
+            var banco = firebase.database().ref('Obras/');
+            var ss = await banco.once('value')
+
+            if(ss.exists()){
+                ss.forEach(function(item) {
+                    var data = item.val();
+                    if(data.cdg === number){
+                        return false 
+                    }
+                })
+                return true 
+            }
+            else{
+                return true
+            }
         }
     
         async function getUser(email){
