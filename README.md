@@ -3,8 +3,6 @@ TCC de 2022 cuja proposta é criar um aplicativo com suporte mobile e web para a
 
 ## :factory: Pendencias
 **Desenvolvimento**
-- `Host` Arrumar um local para hostear o site
-- `Webview` Arrumar a parte do webview para que haja o app
 
 **Melhorias**
 
